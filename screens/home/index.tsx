@@ -1,12 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import useDimensions from "../../hooks/useDimensions";
-import { BoldText } from "../../components/styled-text";
-
-function StickyTab() {}
+import { useState } from "react";
+import StickyBottomTabs from "../../components/sticky-bottom-tabs";
 
 export default function HomeScreen() {
-  const { navigate }: any = useNavigation();
   const { screenWidth, screenHeight } = useDimensions();
 
   return (
@@ -16,10 +14,9 @@ export default function HomeScreen() {
         height: screenHeight,
         flex: 1,
         backgroundColor: "#fff",
-        paddingHorizontal: 16,
       }}
     >
-      <BoldText>hi</BoldText>
+      <StickyBottomTabs />
     </View>
   );
 }
