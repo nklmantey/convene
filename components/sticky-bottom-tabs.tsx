@@ -10,7 +10,7 @@ export default function StickyBottomTabs() {
   const [activeTab, setActiveTab] = useState("you");
 
   return (
-    <View style={{ flex: 1, paddingHorizontal: 16, paddingVertical: 24 }}>
+    <View style={{ flex: 1, paddingVertical: 24 }}>
       <TabNavigation activeTab={activeTab} />
       <View
         style={{
@@ -21,6 +21,7 @@ export default function StickyBottomTabs() {
           flexDirection: "row",
           justifyContent: "space-between",
           gap: 2,
+          paddingHorizontal: 8,
         }}
       >
         <TouchableOpacity
@@ -122,7 +123,7 @@ export default function StickyBottomTabs() {
 
 function TabNavigation({ activeTab }: { activeTab: string }) {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {activeTab === "you" ? (
         <YouTab />
       ) : activeTab === "friends" ? (
