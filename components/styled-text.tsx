@@ -21,3 +21,24 @@ export function MediumText(props: TextProps) {
     <Text {...props} style={[props.style, { fontFamily: "InterMedium" }]} />
   );
 }
+
+export function HeadingText(props: TextProps) {
+  return (
+    <Text
+      {...props}
+      style={[props.style, { fontFamily: "InterBold", fontSize: 24 }]}
+    />
+  );
+}
+
+export function SubHeadingText(props: TextProps) {
+  return (
+    <Text
+      {...props}
+      style={[
+        props.style,
+        { fontFamily: "InterMedium", fontSize: 16, color: "gray" },
+      ]}
+    />
+  );
+}

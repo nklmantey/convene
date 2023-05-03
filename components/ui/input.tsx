@@ -28,9 +28,9 @@ const Input = (props: InputProps) => {
         style={[
           styles.input,
           {
-            borderColor: "#F2F2F2B2",
-            backgroundColor: "#09265D",
-            color: "#fff",
+            borderColor: "#d3d3d3",
+            backgroundColor: "#fff",
+            color: "#000",
           },
         ]}
       />
@@ -38,26 +38,22 @@ const Input = (props: InputProps) => {
   );
 };
 
-const PwdInput = ({ label, placeholder, onChangeText }: InputProps) => {
+const PwdInput = ({ placeholder, onChangeText }: InputProps) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <View>
-      <RegularText style={{ color: "#fff", marginBottom: 5 }}>
-        {label}
-      </RegularText>
-
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           width: "100%",
           alignSelf: "center",
-          borderColor: "#F2F2F2B2",
-          borderWidth: 2,
+          borderColor: "#d3d3d3",
+          borderWidth: 1,
           justifyContent: "space-between",
           borderRadius: 8,
-          backgroundColor: "#09265D",
+          backgroundColor: "#fff",
         }}
       >
         <TextInput
@@ -69,9 +65,7 @@ const PwdInput = ({ label, placeholder, onChangeText }: InputProps) => {
             styles.input,
             {
               borderWidth: 0,
-              color: "#fff",
               width: "85%",
-              borderRadius: 5,
             },
           ]}
         />
@@ -88,7 +82,7 @@ const PwdInput = ({ label, placeholder, onChangeText }: InputProps) => {
         >
           <Ionicons
             name={visible ? "eye-off" : "eye"}
-            color={"white"}
+            color={"#000"}
             size={20}
           />
         </TouchableOpacity>
@@ -103,7 +97,7 @@ const styles = StyleSheet.create({
   input: {
     padding: 12,
     fontSize: 16,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 8,
     width: "100%",
     alignSelf: "center",

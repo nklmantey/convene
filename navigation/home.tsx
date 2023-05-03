@@ -10,14 +10,27 @@ const HomeNavigation = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        headerStyle: {
+          borderBottomColor: "#eee",
+          borderBottomWidth: 1,
+        },
+        headerTitleStyle: {
+          fontFamily: "InterBold",
+          fontSize: 24,
+          color: "#000",
+        },
         ...TransitionPresets.SlideFromRightIOS,
         animationEnabled: true,
         gestureEnabled: true,
         gestureDirection: "horizontal",
       }}
     >
-      <Stack.Screen name="home" component={HomeScreen} />
+      <Stack.Screen
+        name="home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
