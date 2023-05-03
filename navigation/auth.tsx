@@ -2,9 +2,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { TransitionPresets } from "@react-navigation/stack";
 import LoginScreen from "../screens/auth/login";
 import SignupScreen from "../screens/auth/signup";
-import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
-import { Text, TouchableOpacity } from "react-native";
 
 const Stack = createStackNavigator<AuthStackParamList>();
 
