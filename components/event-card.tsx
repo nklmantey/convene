@@ -65,10 +65,14 @@ export default function EventCard({
               />
             </TouchableOpacity>
           </View>
+          <Image
+            source={{ uri: image }}
+            style={{ width: "100%", height: 200, borderRadius: 16 }}
+            resizeMode="cover"
+          />
           <BoldText>{title}</BoldText>
           <ETA eta={eta} />
           <MediumText>{content}</MediumText>
-
           <View
             style={{
               flexDirection: "row",

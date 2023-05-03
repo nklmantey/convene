@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
-export default function DiscoveryTab() {
+export default function DiscoverTab() {
   return (
     <View>
-      <Text>DiscoveryTab</Text>
+      <Text>DiscoverTab</Text>
     </View>
   );
 }

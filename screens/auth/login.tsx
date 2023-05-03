@@ -27,7 +27,7 @@ export default function LoginScreen() {
     >
       <View>
         <HeadingText style={{ color: "coral" }}>
-          welcome back to syncUp
+          welcome back to convene
         </HeadingText>
         <SubHeadingText onPress={() => navigate("signup")}>
           don't have an account? create one now
