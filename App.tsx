@@ -12,8 +12,8 @@ const App = () => {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView>
+    <SafeAreaProvider style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <StatusBar style="auto" />
         <RootNavigation />
       </SafeAreaView>

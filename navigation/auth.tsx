@@ -1,6 +1,4 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { View } from "react-native";
-import { useState } from "react";
 import { TransitionPresets } from "@react-navigation/stack";
 import LoginScreen from "../screens/auth/login";
 import SignupScreen from "../screens/auth/signup";

@@ -1,7 +1,7 @@
 import * as Font from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
