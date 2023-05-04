@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "sync-up",
-    "slug": "sync-up",
+    "name": "convene",
+    "slug": "convene",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

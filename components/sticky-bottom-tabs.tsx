@@ -37,7 +37,7 @@ export default function StickyBottomTabs() {
             justifyContent: "center",
           }}
         >
-          <Ionicons name="ios-calendar" size={20} color={"#000"} />
+          <Ionicons name="ios-calendar-outline" size={20} color={"#000"} />
         </TouchableOpacity>
 
         <View
