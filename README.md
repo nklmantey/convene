@@ -19,7 +19,9 @@ To run the app locally, follow these steps:
 <li>Start up the app: npx expo start</li>
 
 ## Screenshots
-![login screen](/screenshots/login.jpg?raw=true "Login Screen")
-![signup screen](/screenshots/signup.jpg?raw=true "Signup Screen")
-![friends screen](/screenshots/friends1.jpg?raw=true "Friends Screen")
-![friends screen](/screenshots/friends2.jpg?raw=true "Friends Screen")
+<p align="center">
+  <img src="screenshots/login.jpg" width="360" />
+  <img src="screenshots/signup.jpg" width="360" />
+  <img src="screenshots/friends1.jpg" width="360" />
+  <img src="screenshots/friends2.jpg" width="360" />
+</p>
