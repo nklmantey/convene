@@ -1,19 +1,36 @@
 # convene
 Convene is a shared social calendar platform for you &amp; your friends so you can be up to date with their latest plans and events or collab and organize a shared event of your own.
 
-<h2>Technologies Used</h2>
+## Technologies Used
 <li>React Native Expo</li>
 <li>Zustand</li>
 <li>Firebase V9</li>
 <li>Typescript</li>
 
-<h2>Features</h2>
-<li>Responsive, adjusted for any screen size</li>
-<li>Search feature to search for NFTs</li>
-
-<h2>Getting Started</h2>
+## Getting Started
 To run the app locally, follow these steps:
 
-<li>Clone the repository from GitHub: git clone https://github.com/nklmantey/convene.git</li>
-<li>Install the dependencies: cd convene && npm install</li>
-<li>Start up the app: npx expo start</li>
+1. Clone this repository and navigate into the project
+   ```sh
+   git clone https://github.com/nklmnatey/convene.git
+   cd convene
+   ```
+2. Install packages and dependencies
+   ```sh
+   npm install
+   ```
+3. Run the app
+   ```sh
+   npx expo start
+   ```
+
+## Screenshots
+<details>
+	<summary>View screenshots</summary>
+<p align="left">
+  <img src="screenshots/login.jpg" width="360" />
+  <img src="screenshots/signup.jpg" width="360" />
+  <img src="screenshots/friends1.jpg" width="360" />
+  <img src="screenshots/friends2.jpg" width="360" />
+</p>
+</details>
