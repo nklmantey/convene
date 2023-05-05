@@ -9,10 +9,25 @@ import {
 import { Input, PwdInput } from "../../components/ui/input";
 import { PrimaryButton } from "../../components/ui/button";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export default function LoginScreen() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const { navigate }: any = useNavigation();
   const { screenWidth, screenHeight } = useDimensions();
+  const setUser = useAuthStore((state) => state.setUser);
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+
+  function handleLogin() {
+    setUser({
+      email: email,
+      password: password,
+    });
+    setIsLoggedIn(true);
+  }
 
   return (
     <View
@@ -35,9 +50,12 @@ export default function LoginScreen() {
       </View>
 
       <View style={{ marginTop: 32, gap: 16 }}>
-        <Input placeholder="email address" onChangeText={() => {}} />
+        <Input placeholder="email address" onChangeText={(e) => setEmail(e)} />
         <View>
-          <PwdInput placeholder="password" onChangeText={() => {}} />
+          <PwdInput
+            placeholder="password"
+            onChangeText={(e) => setPassword(e)}
+          />
           <SubHeadingText>forgot password? reset</SubHeadingText>
         </View>
       </View>
@@ -50,7 +68,7 @@ export default function LoginScreen() {
           alignSelf: "center",
         }}
       >
-        <PrimaryButton title="login" onPress={() => {}} />
+        <PrimaryButton title="login" onPress={() => handleLogin()} />
       </View>
     </View>
   );

@@ -1,11 +1,6 @@
 import { View, Text } from "react-native";
 import useDimensions from "../../hooks/useDimensions";
-import {
-  BoldText,
-  HeadingText,
-  SemiBoldText,
-  SubHeadingText,
-} from "../../components/styled-text";
+import { HeadingText, SubHeadingText } from "../../components/styled-text";
 import { Input, PwdInput } from "../../components/ui/input";
 import { PrimaryButton } from "../../components/ui/button";
 import { useNavigation } from "@react-navigation/native";

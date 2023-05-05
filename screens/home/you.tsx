@@ -18,7 +18,7 @@ function TodayBar() {
       style={{
         borderColor: "coral",
         borderWidth: 1,
-        paddingHorizontal: 16,
+        paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 5,
         backgroundColor: "rgba(255,127,80, 0.3)",
@@ -39,6 +39,7 @@ function TodayBar() {
 }
 export default function YouTab() {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+
   return (
     <View style={{ flex: 1 }}>
       {/* header */}
