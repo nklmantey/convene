@@ -1,6 +1,13 @@
 # convene
 Convene is a shared social calendar platform for you &amp; your friends so you can be up to date with their latest plans and events or collab and organize a shared event of your own.
 
+
+<strong>
+<h3>This is still a work in progress! :)</h3>
+</strong>
+
+<br />
+
 ## Technologies Used
 <li>React Native Expo</li>
 <li>Zustand</li>
