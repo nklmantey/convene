@@ -7,7 +7,6 @@ import {
   ViewStyle,
 } from "react-native";
 import React, { useState } from "react";
-import { MediumText, RegularText } from "../styled-text";
 import { Ionicons } from "@expo/vector-icons";
 
 export type InputProps = {
@@ -16,6 +15,7 @@ export type InputProps = {
   onChangeText(e: any): void;
   maxLength?: number;
   style?: ViewStyle;
+  multiline?: boolean;
 };
 
 const Input = (props: InputProps) => {
@@ -25,12 +25,36 @@ const Input = (props: InputProps) => {
         placeholder={props.placeholder}
         placeholderTextColor="gainsboro"
         onChangeText={props.onChangeText}
+        multiline={props.multiline}
         style={[
           styles.input,
           {
             borderColor: "#d3d3d3",
             backgroundColor: "#fff",
             color: "#000",
+          },
+        ]}
+      />
+    </View>
+  );
+};
+
+const BorderlessInput = (props: InputProps) => {
+  return (
+    <View {...props} style={props.style}>
+      <TextInput
+        placeholder={props.placeholder}
+        placeholderTextColor="gray"
+        onChangeText={props.onChangeText}
+        multiline={props.multiline}
+        style={[
+          styles.input,
+          {
+            paddingHorizontal: 0,
+            borderWidth: 0,
+            backgroundColor: "#fff",
+            color: "#000",
+            height: 60,
           },
         ]}
       />
@@ -91,7 +115,7 @@ const PwdInput = ({ placeholder, onChangeText }: InputProps) => {
   );
 };
 
-export { Input, PwdInput };
+export { Input, PwdInput, BorderlessInput };
 
 const styles = StyleSheet.create({
   input: {

@@ -37,8 +37,12 @@ function TodayBar() {
     </View>
   );
 }
+
 export default function YouTab() {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+  const user = useAuthStore((state) => state.user);
+
+  console.log(user);
 
   return (
     <View style={{ flex: 1 }}>
@@ -73,7 +77,7 @@ export default function YouTab() {
           borderBottomColor: "#eee",
           borderBottomWidth: 1,
           paddingHorizontal: 16,
-          paddingVertical: 8,
+          marginTop: 16,
         }}
       >
         <View

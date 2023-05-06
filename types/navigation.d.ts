@@ -6,7 +6,9 @@ type RootStackParamList = {
 type AuthStackParamList = {
   login: undefined;
   signup: undefined;
+  "forgot-password": undefined;
 };
 type HomeStackParamList = {
   home: undefined;
+  "add-event": undefined;
 };

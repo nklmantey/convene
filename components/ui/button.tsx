@@ -1,6 +1,5 @@
 import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
 import { BoldText } from "../styled-text";
-import { Ionicons } from "@expo/vector-icons";
 
 type ButtonProps = {
   title: string;

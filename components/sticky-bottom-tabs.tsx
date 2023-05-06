@@ -5,8 +5,10 @@ import { useState } from "react";
 import YouTab from "../screens/home/you";
 import FriendsTab from "../screens/home/friends";
 import DiscoverTab from "../screens/home/discover";
+import { useNavigation } from "@react-navigation/native";
 
 export default function StickyBottomTabs() {
+  const { navigate }: any = useNavigation();
   const [activeTab, setActiveTab] = useState<"you" | "friends" | "discover">(
     "you"
   );
@@ -106,6 +108,7 @@ export default function StickyBottomTabs() {
         </View>
 
         <TouchableOpacity
+          onPress={() => navigate("add-event")}
           style={{
             padding: 8,
             backgroundColor: "#eee",

@@ -5,6 +5,7 @@ import SignupScreen from "../screens/auth/signup";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import ForgotPasswordScreen from "../screens/auth/forgot-password";
 
 const Stack = createStackNavigator<AuthStackParamList>();
 
@@ -25,6 +26,10 @@ export default function AuthNavigation() {
           fontSize: 24,
           color: "#000",
         },
+        ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: true,
+        gestureEnabled: true,
+        gestureDirection: "horizontal",
       }}
     >
       <Stack.Screen name="login" component={LoginScreen} />
@@ -53,6 +58,29 @@ export default function AuthNavigation() {
           animationEnabled: true,
           gestureEnabled: true,
           gestureDirection: "vertical",
+        }}
+      />
+      <Stack.Screen
+        name="forgot-password"
+        component={ForgotPasswordScreen}
+        options={{
+          title: "forgot password?",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                marginLeft: 16,
+                width: 30,
+                height: 30,
+                borderRadius: 8,
+                backgroundColor: "#eee",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={() => goBack()}
+            >
+              <Ionicons name="ios-arrow-back" size={15} color={"coral"} />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack.Navigator>

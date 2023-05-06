@@ -1,11 +1,6 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import useDimensions from "../../hooks/useDimensions";
-import {
-  BoldText,
-  HeadingText,
-  SemiBoldText,
-  SubHeadingText,
-} from "../../components/styled-text";
+import { HeadingText, SubHeadingText } from "../../components/styled-text";
 import { Input, PwdInput } from "../../components/ui/input";
 import { PrimaryButton } from "../../components/ui/button";
 import { useNavigation } from "@react-navigation/native";
@@ -51,12 +46,14 @@ export default function LoginScreen() {
 
       <View style={{ marginTop: 32, gap: 16 }}>
         <Input placeholder="email address" onChangeText={(e) => setEmail(e)} />
-        <View>
+        <View style={{ gap: 8 }}>
           <PwdInput
             placeholder="password"
             onChangeText={(e) => setPassword(e)}
           />
-          <SubHeadingText>forgot password? reset</SubHeadingText>
+          <SubHeadingText onPress={() => navigate("forgot-password")}>
+            forgot password? reset it
+          </SubHeadingText>
         </View>
       </View>
 
