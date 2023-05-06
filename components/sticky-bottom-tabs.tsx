@@ -1,14 +1,31 @@
 import { TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { BoldText, MediumText } from "./styled-text";
-import { useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import YouTab from "../screens/home/you";
 import FriendsTab from "../screens/home/friends";
 import { useNavigation } from "@react-navigation/native";
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 
 export default function StickyBottomTabs() {
   const { navigate }: any = useNavigation();
   const [activeTab, setActiveTab] = useState<"you" | "friends">("you");
+  const [sortBy, setSortBy] = useState<"nearest" | "recent">("nearest");
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["5%", "30%"], []);
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        opacity={0.4}
+        enableTouchThrough={false}
+        disappearsOnIndex={-1}
+        pressBehavior="close"
+      />
+    ),
+    []
+  );
 
   return (
     <View style={{ flex: 1, paddingVertical: 24 }}>
@@ -26,6 +43,9 @@ export default function StickyBottomTabs() {
         }}
       >
         <TouchableOpacity
+          onPress={() => {
+            bottomSheetRef.current?.snapToIndex(1);
+          }}
           style={{
             padding: 8,
             backgroundColor: "#eee",
@@ -36,7 +56,13 @@ export default function StickyBottomTabs() {
             justifyContent: "center",
           }}
         >
-          <Ionicons name="ios-calendar-outline" size={20} color={"#000"} />
+          <Ionicons
+            name={
+              sortBy === "nearest" ? "ios-calendar-outline" : "ios-time-outline"
+            }
+            size={20}
+            color={"#000"}
+          />
         </TouchableOpacity>
 
         <View
@@ -102,6 +128,65 @@ export default function StickyBottomTabs() {
           <Ionicons name="ios-add" size={20} color={"#000"} />
         </TouchableOpacity>
       </View>
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={-1}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#fff",
+            alignItems: "center",
+            gap: 24,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              setSortBy("nearest");
+              bottomSheetRef.current?.close();
+            }}
+            style={{
+              flexDirection: "row",
+              gap: 16,
+              paddingHorizontal: 24,
+              paddingVertical: 8,
+              alignItems: "center",
+              justifyContent: "flex-start",
+              borderRadius: 6,
+              width: "100%",
+            }}
+          >
+            <Ionicons name="ios-calendar-outline" size={30} color={"gray"} />
+            <BoldText style={{ fontSize: 18, color: "gray" }}>
+              sort by nearest date
+            </BoldText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setSortBy("recent");
+              bottomSheetRef.current?.close();
+            }}
+            style={{
+              flexDirection: "row",
+              gap: 16,
+              paddingHorizontal: 24,
+              paddingVertical: 8,
+              alignItems: "center",
+              justifyContent: "flex-start",
+              borderRadius: 6,
+              width: "100%",
+            }}
+          >
+            <Ionicons name="ios-time-outline" size={30} color={"gray"} />
+            <BoldText style={{ fontSize: 18, color: "gray" }}>
+              sort by recently posted
+            </BoldText>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
     </View>
   );
 }

@@ -37,32 +37,31 @@ export default function AddEventScreen() {
           }}
         >
           <BorderlessInput
-            placeholder="title"
+            placeholder="what's happening?"
             onChangeText={() => {}}
             multiline={true}
           />
 
           <View style={{ gap: 8 }}>
             <View
-              style={{ flexDirection: "row", gap: 8, alignItems: "center" }}
+              style={{ flexDirection: "row", gap: 8, alignItems: "flex-start" }}
             >
               <Ionicons name="ios-time-outline" size={20} color={"gray"} />
-              <MediumText style={{ color: "gray", fontSize: 16 }}>
-                Start:
-              </MediumText>
-            </View>
-            <View
-              style={{ flexDirection: "row", gap: 8, alignItems: "center" }}
-            >
-              <Ionicons name="ios-time-outline" size={20} color={"gray"} />
-              <MediumText style={{ color: "gray", fontSize: 16 }}>
-                End:
-              </MediumText>
+              <View style={{ gap: 8 }}>
+                <MediumText style={{ color: "gray", fontSize: 16 }}>
+                  Start:
+                </MediumText>
+                <MediumText style={{ color: "gray", fontSize: 16 }}>
+                  End:
+                </MediumText>
+              </View>
             </View>
           </View>
 
+          {/* location and icon should show here after a user selects a location from the action button */}
+
           <BorderlessInput
-            placeholder="message"
+            placeholder="describe your event"
             onChangeText={() => {}}
             multiline={true}
           />
@@ -74,9 +73,9 @@ export default function AddEventScreen() {
         style={{
           borderTopWidth: 1,
           borderTopColor: "#eee",
-          padding: 16,
+          padding: 24,
           flexDirection: "row",
-          gap: 16,
+          justifyContent: "space-between",
         }}
       >
         <EventActionButton onPress={() => {}} name="ios-location" />
