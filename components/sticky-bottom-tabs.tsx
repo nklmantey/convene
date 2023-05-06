@@ -4,14 +4,11 @@ import { BoldText, MediumText } from "./styled-text";
 import { useState } from "react";
 import YouTab from "../screens/home/you";
 import FriendsTab from "../screens/home/friends";
-import DiscoverTab from "../screens/home/discover";
 import { useNavigation } from "@react-navigation/native";
 
 export default function StickyBottomTabs() {
   const { navigate }: any = useNavigation();
-  const [activeTab, setActiveTab] = useState<"you" | "friends" | "discover">(
-    "you"
-  );
+  const [activeTab, setActiveTab] = useState<"you" | "friends">("you");
 
   return (
     <View style={{ flex: 1, paddingVertical: 24 }}>
@@ -88,23 +85,6 @@ export default function StickyBottomTabs() {
               <MediumText style={{ fontSize: 12 }}>friends</MediumText>
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setActiveTab("discover")}
-            style={{
-              backgroundColor: activeTab === "discover" ? "#fff" : "#eee",
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 20,
-              padding: 4,
-            }}
-          >
-            {activeTab === "discover" ? (
-              <BoldText style={{ fontSize: 12 }}>discover</BoldText>
-            ) : (
-              <MediumText style={{ fontSize: 12 }}>discover</MediumText>
-            )}
-          </TouchableOpacity>
         </View>
 
         <TouchableOpacity
@@ -129,13 +109,7 @@ export default function StickyBottomTabs() {
 function TabNavigation({ activeTab }: { activeTab: string }) {
   return (
     <View style={{ flex: 1 }}>
-      {activeTab === "you" ? (
-        <YouTab />
-      ) : activeTab === "friends" ? (
-        <FriendsTab />
-      ) : (
-        <DiscoverTab />
-      )}
+      {activeTab === "you" ? <YouTab /> : <FriendsTab />}
     </View>
   );
 }
