@@ -40,9 +40,6 @@ function TodayBar() {
 
 export default function YouTab() {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
-  const user = useAuthStore((state) => state.user);
-
-  console.log(user);
 
   return (
     <View style={{ flex: 1 }}>

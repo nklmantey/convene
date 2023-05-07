@@ -6,6 +6,7 @@ import { PrimaryButton } from "../../components/ui/button";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useAuthStore } from "../../store/useAuthStore";
+import { validateEmail, validatePassword } from "../../utils/validateInput";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -17,11 +18,11 @@ export default function LoginScreen() {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
 
   function handleLogin() {
-    setUser({
-      email: email,
-      password: password,
-    });
-    setIsLoggedIn(true);
+    password === "" || email === ""
+      ? alert("please fill in all fields")
+      : validateEmail(email.trim())
+      ? !validatePassword(password) && alert("wrong")
+      : alert("please make sure email is in the right format");
   }
 
   return (

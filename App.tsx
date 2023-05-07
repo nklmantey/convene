@@ -3,9 +3,21 @@ import { StatusBar } from "expo-status-bar";
 import RootNavigation from "./navigation/root";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
+import { useEffect } from "react";
+import { useAuthStore } from "./store/useAuthStore";
+import FlashMessage from "react-native-flash-message";
 
 const App = () => {
   const isLoadingComplete = useCachedResources();
+  const [user, isLoggedIn] = useAuthStore((state) => [
+    state.user,
+    state.isLoggedIn,
+  ]);
+
+  useEffect(() => {
+    console.log(user);
+    console.log(isLoggedIn);
+  }, [user, isLoggedIn]);
 
   if (!isLoadingComplete) {
     return null;
@@ -16,6 +28,7 @@ const App = () => {
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar style="auto" />
         <RootNavigation />
+        <FlashMessage position="top" animated statusBarHeight={40} />
       </SafeAreaView>
     </SafeAreaProvider>
   );

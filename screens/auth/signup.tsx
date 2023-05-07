@@ -5,8 +5,14 @@ import { Input, PwdInput } from "../../components/ui/input";
 import { PrimaryButton } from "../../components/ui/button";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStore } from "../../store/useAuthStore";
+import { useState } from "react";
 
 export default function SignupScreen() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const { navigate }: any = useNavigation();
   const { screenWidth, screenHeight } = useDimensions();
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
@@ -32,10 +38,26 @@ export default function SignupScreen() {
       </View>
 
       <View style={{ marginTop: 32, gap: 16 }}>
-        <Input placeholder="full name" onChangeText={() => {}} />
-        <Input placeholder="email address" onChangeText={() => {}} />
-        <PwdInput placeholder="password" onChangeText={() => {}} />
-        <PwdInput placeholder="confirm password" onChangeText={() => {}} />
+        <Input
+          placeholder="full name"
+          onChangeText={(e) => setFullName(e)}
+          value={fullName}
+        />
+        <Input
+          placeholder="email address"
+          onChangeText={(e) => setEmail(e)}
+          value={email}
+        />
+        <PwdInput
+          placeholder="password"
+          onChangeText={(e) => setPassword(e)}
+          value={password}
+        />
+        <PwdInput
+          placeholder="confirm password"
+          onChangeText={(e) => setConfirmPassword(e)}
+          value={confirmPassword}
+        />
       </View>
 
       <View

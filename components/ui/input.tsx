@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 export type InputProps = {
   label?: string;
   placeholder?: string;
+  value: string;
   onChangeText(e: any): void;
   maxLength?: number;
   style?: ViewStyle;
@@ -26,6 +27,7 @@ const Input = (props: InputProps) => {
         placeholderTextColor="gainsboro"
         onChangeText={props.onChangeText}
         multiline={props.multiline}
+        value={props.value}
         style={[
           styles.input,
           {
@@ -47,6 +49,7 @@ const BorderlessInput = (props: InputProps) => {
         placeholderTextColor="gray"
         onChangeText={props.onChangeText}
         multiline={props.multiline}
+        value={props.value}
         style={[
           styles.input,
           {
@@ -62,7 +65,7 @@ const BorderlessInput = (props: InputProps) => {
   );
 };
 
-const PwdInput = ({ placeholder, onChangeText }: InputProps) => {
+const PwdInput = ({ placeholder, onChangeText, value }: InputProps) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
@@ -84,6 +87,7 @@ const PwdInput = ({ placeholder, onChangeText }: InputProps) => {
           placeholder={placeholder}
           placeholderTextColor={"gainsboro"}
           onChangeText={onChangeText}
+          value={value}
           secureTextEntry={visible ? false : true}
           style={[
             styles.input,
