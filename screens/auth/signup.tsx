@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import useDimensions from "../../hooks/useDimensions";
 import { HeadingText, SubHeadingText } from "../../components/styled-text";
 import { Input, PwdInput } from "../../components/ui/input";
@@ -6,16 +6,94 @@ import { PrimaryButton } from "../../components/ui/button";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useState } from "react";
+import {
+  validateEmail,
+  validateMatchPassword,
+  validatePassword,
+} from "../../utils/validateInput";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { showMessage } from "react-native-flash-message";
 
 export default function SignupScreen() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { navigate }: any = useNavigation();
   const { screenWidth, screenHeight } = useDimensions();
-  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+  const setUser = useAuthStore((state) => state.setUser);
+
+  async function handleSignup() {
+    // input validation
+    password === "" || email === "" || confirmPassword === ""
+      ? showMessage({
+          message: "please fill in all fields!",
+          type: "danger",
+          icon: "danger",
+        })
+      : validateEmail(email.trim())
+      ? validatePassword(password) || validatePassword(confirmPassword)
+        ? validateMatchPassword(password, confirmPassword)
+          ? await createAccount()
+          : showMessage({
+              message: "your passwords do not match!",
+              type: "danger",
+              icon: "danger",
+            })
+        : showMessage({
+            message: "your password is less than 8 characters!",
+            type: "danger",
+            icon: "danger",
+          })
+      : showMessage({
+          message: "make sure your email is in the right format!",
+          type: "danger",
+          icon: "danger",
+        });
+
+    // add user to firestore database
+    async function addUserToDb(uid: string) {
+      await setDoc(doc(db, "users", uid), {
+        email: email.trim(),
+        fullName: fullName,
+      });
+    }
+
+    // create the user account in auth
+    async function createAccount() {
+      setLoading(true);
+
+      try {
+        await createUserWithEmailAndPassword(auth, email.trim(), password)
+          .then(async (credentials) => {
+            await addUserToDb(credentials?.user?.uid);
+            showMessage({
+              message: "account created successfully!",
+              type: "success",
+              icon: "success",
+            });
+            navigate("login");
+          })
+          .finally(() => {
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            setFullName("");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        setLoading(false);
+      } catch (e) {
+        console.log("something went wrong:", e);
+      }
+    }
+  }
 
   return (
     <View
@@ -68,7 +146,10 @@ export default function SignupScreen() {
           alignSelf: "center",
         }}
       >
-        <PrimaryButton title="sign up" onPress={() => setIsLoggedIn(true)} />
+        <PrimaryButton
+          title={loading ? <ActivityIndicator color={"#fff"} /> : "sign up"}
+          onPress={() => handleSignup()}
+        />
       </View>
     </View>
   );
