@@ -6,6 +6,7 @@ import YouTab from "../screens/home/you";
 import FriendsTab from "../screens/home/friends";
 import { useNavigation } from "@react-navigation/native";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import BottomSheetAction from "./bottom-sheet-action";
 
 export default function StickyBottomTabs() {
   const { navigate }: any = useNavigation();
@@ -140,51 +141,27 @@ export default function StickyBottomTabs() {
             flex: 1,
             backgroundColor: "#fff",
             alignItems: "center",
-            gap: 24,
+            gap: 8,
           }}
         >
-          <TouchableOpacity
+          <BottomSheetAction
+            icon="ios-calendar"
+            title="sort by upcoming"
             onPress={() => {
               setSortBy("nearest");
               bottomSheetRef.current?.close();
             }}
-            style={{
-              flexDirection: "row",
-              gap: 16,
-              paddingHorizontal: 24,
-              paddingVertical: 8,
-              alignItems: "center",
-              justifyContent: "flex-start",
-              borderRadius: 6,
-              width: "100%",
-            }}
-          >
-            <Ionicons name="ios-calendar-outline" size={30} color={"gray"} />
-            <BoldText style={{ fontSize: 18, color: "gray" }}>
-              sort by nearest date
-            </BoldText>
-          </TouchableOpacity>
-          <TouchableOpacity
+            subtext="this sorts the events and shows those with the nearest approaching date first"
+          />
+          <BottomSheetAction
+            icon="ios-time"
+            title="sort by recent"
             onPress={() => {
               setSortBy("recent");
               bottomSheetRef.current?.close();
             }}
-            style={{
-              flexDirection: "row",
-              gap: 16,
-              paddingHorizontal: 24,
-              paddingVertical: 8,
-              alignItems: "center",
-              justifyContent: "flex-start",
-              borderRadius: 6,
-              width: "100%",
-            }}
-          >
-            <Ionicons name="ios-time-outline" size={30} color={"gray"} />
-            <BoldText style={{ fontSize: 18, color: "gray" }}>
-              sort by recently posted
-            </BoldText>
-          </TouchableOpacity>
+            subtext="this sorts the events and shows those posted recently first"
+          />
         </View>
       </BottomSheet>
     </View>

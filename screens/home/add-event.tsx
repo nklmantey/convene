@@ -1,10 +1,34 @@
-import { Image, View } from "react-native";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import { MediumText } from "../../components/styled-text";
+import { Image, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { MediumText, SemiBoldText } from "../../components/styled-text";
 import { BorderlessInput } from "../../components/ui/input";
 import EventActionButton from "../../components/event-action-btn";
+import { useCallback, useMemo, useRef, useState } from "react";
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import BottomSheetAction from "../../components/bottom-sheet-action";
 
 export default function AddEventScreen() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [visibility, setVisibility] = useState<"public" | "invitees only">(
+    "public"
+  );
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["5%", "35%"], []);
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        opacity={0.4}
+        enableTouchThrough={false}
+        disappearsOnIndex={-1}
+        pressBehavior="close"
+      />
+    ),
+    []
+  );
+
   return (
     <View
       style={{
@@ -19,6 +43,9 @@ export default function AddEventScreen() {
           style={{
             paddingHorizontal: 16,
             marginTop: 24,
+            flexDirection: "row",
+            gap: 8,
+            alignItems: "center",
           }}
         >
           <Image
@@ -26,6 +53,21 @@ export default function AddEventScreen() {
             style={{ width: 60, height: 60, borderRadius: 30 }}
             resizeMode="cover"
           />
+          <TouchableOpacity
+            onPress={() => {
+              bottomSheetRef.current?.snapToIndex(1);
+            }}
+            style={{
+              borderColor: "coral",
+              borderWidth: 1,
+              paddingHorizontal: 8,
+              paddingVertical: 4,
+              borderRadius: 8,
+              backgroundColor: "rgba(255,127,80, 0.3)",
+            }}
+          >
+            <SemiBoldText style={{ color: "coral" }}>{visibility}</SemiBoldText>
+          </TouchableOpacity>
         </View>
 
         <View
@@ -38,8 +80,9 @@ export default function AddEventScreen() {
         >
           <BorderlessInput
             placeholder="what's happening?"
-            onChangeText={() => {}}
-            multiline={true}
+            onChangeText={(e) => setTitle(e)}
+            maxLength={50}
+            value={title}
           />
 
           <View style={{ gap: 8 }}>
@@ -62,8 +105,9 @@ export default function AddEventScreen() {
 
           <BorderlessInput
             placeholder="describe your event"
-            onChangeText={() => {}}
+            onChangeText={(e) => setDescription(e)}
             multiline={true}
+            value={description}
           />
         </View>
       </View>
@@ -84,6 +128,41 @@ export default function AddEventScreen() {
         <EventActionButton onPress={() => {}} name="ios-images" />
         <EventActionButton onPress={() => {}} name="ios-pricetag" />
       </View>
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={-1}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#fff",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <BottomSheetAction
+            icon="ios-eye"
+            title="public"
+            onPress={() => {
+              setVisibility("public");
+              bottomSheetRef.current?.close();
+            }}
+            subtext="this event will be visible to all your friends on convene"
+          />
+          <BottomSheetAction
+            icon="ios-mail-open"
+            title="invitees only"
+            onPress={() => {
+              setVisibility("invitees only");
+              bottomSheetRef.current?.close();
+            }}
+            subtext="this event will be visible to only friends you've invited"
+          />
+        </View>
+      </BottomSheet>
     </View>
   );
 }
