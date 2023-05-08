@@ -25,7 +25,6 @@ export default function SignupScreen() {
 
   const { navigate }: any = useNavigation();
   const { screenWidth, screenHeight } = useDimensions();
-  const setUser = useAuthStore((state) => state.setUser);
 
   async function handleSignup() {
     // input validation
@@ -117,7 +116,7 @@ export default function SignupScreen() {
 
       <View style={{ marginTop: 32, gap: 16 }}>
         <Input
-          placeholder="full name"
+          placeholder="create a unique username"
           onChangeText={(e) => setUsername(e)}
           value={username}
         />

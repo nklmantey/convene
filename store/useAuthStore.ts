@@ -3,13 +3,14 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface User {
-  email: string | null;
-  username: string | null;
+  email: string | "";
+  username: string | "";
+  avatar: string | "";
 }
 
 export interface AuthStore {
-  user: User | null;
-  setUser: (user: Partial<User>) => void;
+  user: User;
+  setUser: (user: User) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
 }
@@ -17,12 +18,13 @@ export interface AuthStore {
 export const useAuthStore = create(
   persist<AuthStore>(
     (set, _) => ({
-      user: null,
+      user: {
+        email: "",
+        username: "",
+        avatar: "",
+      },
       isLoggedIn: false,
-      setUser: (partialUser) =>
-        set((state) => ({
-          user: state.user ? { ...state.user, ...partialUser } : null,
-        })),
+      setUser: (user) => set((state) => ({ user })),
       setIsLoggedIn: (isLoggedIn: boolean) => set((state) => ({ isLoggedIn })),
     }),
     {

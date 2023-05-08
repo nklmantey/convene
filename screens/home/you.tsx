@@ -1,4 +1,4 @@
-import { Image, ScrollView, View } from "react-native";
+import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthStore } from "../../store/useAuthStore";
 import {
@@ -9,6 +9,9 @@ import {
 import PersonalEvents from "../../components/personal-events";
 import { UserEvents as events } from "../../constants/user-events";
 import dayjs from "dayjs";
+import { useState } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 function TodayBar() {
   const today = dayjs().format("DD/MMM");
@@ -40,6 +43,27 @@ function TodayBar() {
 
 export default function YouTab() {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+  const setUser = useAuthStore((state) => state.setUser);
+  const user = useAuthStore((state) => state.user);
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogout() {
+    setLoading(true);
+
+    try {
+      await signOut(auth);
+      setUser({
+        email: "",
+        username: "",
+        avatar: "",
+      });
+
+      setIsLoggedIn(false);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -57,7 +81,7 @@ export default function YouTab() {
             name="ios-people-outline"
             size={25}
             color={"coral"}
-            onPress={() => setIsLoggedIn(false)}
+            onPress={() => handleLogout()}
           />
         </View>
 
@@ -84,11 +108,27 @@ export default function YouTab() {
             alignItems: "flex-start",
           }}
         >
-          <Image
-            source={require("../../assets/avatar.png")}
-            style={{ width: 60, height: 60, borderRadius: 30 }}
-            resizeMode="cover"
-          />
+          {user.avatar ? (
+            <Image
+              source={{ uri: user.avatar }}
+              style={{ width: 60, height: 60, borderRadius: 30 }}
+              resizeMode="cover"
+            />
+          ) : (
+            <TouchableOpacity
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                borderWidth: 1,
+                borderColor: "#d3d3d3",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons name="ios-image-outline" size={20} color={"#000"} />
+            </TouchableOpacity>
+          )}
 
           <View style={{ alignItems: "center" }}>
             <MediumText>Events</MediumText>
@@ -105,7 +145,7 @@ export default function YouTab() {
         </View>
 
         <View style={{ marginVertical: 8, width: "50%" }}>
-          <BoldText>nklmantey</BoldText>
+          <BoldText>{user.username}</BoldText>
           <MediumText style={{ fontSize: 12 }}>
             I love going places, travelling
           </MediumText>

@@ -51,8 +51,9 @@ export default function LoginScreen() {
 
       if (docSnap.exists()) {
         setUser({
-          email: user.email,
+          email: user.email!,
           username: docSnap.data().username,
+          avatar: docSnap.data().avatar,
         });
       } else {
         console.log("No such document");
