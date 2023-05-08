@@ -52,7 +52,7 @@ export default function LoginScreen() {
       if (docSnap.exists()) {
         setUser({
           email: user.email,
-          name: docSnap.data().fullName,
+          username: docSnap.data().username,
         });
       } else {
         console.log("No such document");

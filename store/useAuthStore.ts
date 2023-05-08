@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface User {
   email: string | null;
-  name: string | null;
+  username: string | null;
 }
 
 export interface AuthStore {
@@ -26,7 +26,7 @@ export const useAuthStore = create(
       setIsLoggedIn: (isLoggedIn: boolean) => set((state) => ({ isLoggedIn })),
     }),
     {
-      name: "user-store",
+      name: "convene-user-store",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

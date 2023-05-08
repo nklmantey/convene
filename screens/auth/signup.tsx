@@ -17,7 +17,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { showMessage } from "react-native-flash-message";
 
 export default function SignupScreen() {
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -29,7 +29,7 @@ export default function SignupScreen() {
 
   async function handleSignup() {
     // input validation
-    password === "" || email === "" || confirmPassword === ""
+    password === "" || email === "" || confirmPassword === "" || username === ""
       ? showMessage({
           message: "please fill in all fields!",
           type: "danger",
@@ -59,7 +59,7 @@ export default function SignupScreen() {
     async function addUserToDb(uid: string) {
       await setDoc(doc(db, "users", uid), {
         email: email.trim(),
-        fullName: fullName,
+        username: username,
       });
     }
 
@@ -82,7 +82,7 @@ export default function SignupScreen() {
             setEmail("");
             setPassword("");
             setConfirmPassword("");
-            setFullName("");
+            setUsername("");
           })
           .catch((error) => {
             console.log(error);
@@ -118,8 +118,8 @@ export default function SignupScreen() {
       <View style={{ marginTop: 32, gap: 16 }}>
         <Input
           placeholder="full name"
-          onChangeText={(e) => setFullName(e)}
-          value={fullName}
+          onChangeText={(e) => setUsername(e)}
+          value={username}
         />
         <Input
           placeholder="email address"

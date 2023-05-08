@@ -4,7 +4,6 @@ import RootNavigation from "./navigation/root";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import { useEffect } from "react";
-import { Ionicons } from "@expo/vector-icons";
 import { useAuthStore } from "./store/useAuthStore";
 import FlashMessage from "react-native-flash-message";
 
