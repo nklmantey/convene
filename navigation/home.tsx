@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { BoldText } from "../components/styled-text";
+import AddUnsplashImage from "../screens/home/unsplash";
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
@@ -42,7 +43,7 @@ const HomeNavigation = () => {
       <Stack.Screen
         name="add-event"
         component={AddEventScreen}
-        options={{
+        options={({ navigation, route }) => ({
           title: "add event",
           headerLeft: () => (
             <TouchableOpacity
@@ -70,7 +71,6 @@ const HomeNavigation = () => {
                 justifyContent: "center",
                 padding: 4,
               }}
-              onPress={() => alert("hi")}
             >
               <BoldText style={{ color: "coral", fontSize: 16 }}>
                 create
@@ -81,7 +81,50 @@ const HomeNavigation = () => {
           animationEnabled: true,
           gestureEnabled: true,
           gestureDirection: "vertical",
-        }}
+        })}
+      />
+      <Stack.Screen
+        name="unsplash"
+        component={AddUnsplashImage}
+        options={({ navigation, route }) => ({
+          title: "search unsplash",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                marginLeft: 16,
+                width: 30,
+                height: 30,
+                borderRadius: 8,
+                backgroundColor: "#eee",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={() => goBack()}
+            >
+              <Ionicons name="ios-arrow-down" size={15} color={"coral"} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <TouchableOpacity
+              style={{
+                marginRight: 16,
+                borderRadius: 8,
+                backgroundColor: "#fff",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 4,
+              }}
+            >
+              <BoldText style={{ color: "coral", fontSize: 16 }}>
+                create
+              </BoldText>
+            </TouchableOpacity>
+          ),
+          ...TransitionPresets.ModalPresentationIOS,
+          animationEnabled: true,
+          gestureEnabled: true,
+          gestureDirection: "vertical",
+        })}
       />
     </Stack.Navigator>
   );

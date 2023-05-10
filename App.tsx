@@ -9,15 +9,11 @@ import FlashMessage from "react-native-flash-message";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const [user, isLoggedIn] = useAuthStore((state) => [
-    state.user,
-    state.isLoggedIn,
-  ]);
+  const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
     console.log(user);
-    console.log(isLoggedIn);
-  }, [user, isLoggedIn]);
+  }, [user]);
 
   if (!isLoadingComplete) {
     return null;

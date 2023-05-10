@@ -11,4 +11,5 @@ type AuthStackParamList = {
 type HomeStackParamList = {
   home: undefined;
   "add-event": undefined;
+  unsplash: undefined;
 };
