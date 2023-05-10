@@ -140,7 +140,7 @@ export default function StickyBottomTabs() {
           style={{
             flex: 1,
             backgroundColor: "#fff",
-            alignItems: "center",
+            // alignItems: "center",
             gap: 8,
           }}
         >

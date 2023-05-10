@@ -1,6 +1,10 @@
 import { Image, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { MediumText, SemiBoldText } from "../../components/styled-text";
+import {
+  BoldText,
+  MediumText,
+  SemiBoldText,
+} from "../../components/styled-text";
 import { BorderlessInput } from "../../components/ui/input";
 import EventActionButton from "../../components/event-action-btn";
 import { useCallback, useMemo, useRef, useState } from "react";
@@ -10,6 +14,9 @@ import BottomSheetAction from "../../components/bottom-sheet-action";
 export default function AddEventScreen() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [location, setLocation] = useState("");
   const [visibility, setVisibility] = useState<"public" | "invitees only">(
     "public"
   );
@@ -102,6 +109,7 @@ export default function AddEventScreen() {
           </View>
 
           {/* location and icon should show here after a user selects a location from the action button */}
+          {location && <BoldText>{location}</BoldText>}
 
           <BorderlessInput
             placeholder="describe your event"
@@ -139,7 +147,7 @@ export default function AddEventScreen() {
           style={{
             flex: 1,
             backgroundColor: "#fff",
-            alignItems: "center",
+            // alignItems: "center",
             gap: 8,
           }}
         >

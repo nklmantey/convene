@@ -21,7 +21,7 @@ export default function BottomSheetAction({
         flexDirection: "row",
         gap: 16,
         alignItems: "center",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         borderRadius: 8,
         width: "90%",
         padding: 16,
