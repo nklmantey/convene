@@ -110,6 +110,8 @@ export default function YouTab() {
     }
   }
 
+  async function setAvatarFromGallery() {}
+
   return (
     <View style={{ flex: 1 }}>
       {/* header */}
@@ -161,6 +163,7 @@ export default function YouTab() {
             />
           ) : (
             <TouchableOpacity
+              onPress={() => setAvatarFromGallery()}
               style={{
                 width: 60,
                 height: 60,
@@ -171,7 +174,7 @@ export default function YouTab() {
                 justifyContent: "center",
               }}
             >
-              <Ionicons name="ios-image-outline" size={20} color={"#000"} />
+              <Ionicons name="ios-person-outline" size={20} color={"#000"} />
             </TouchableOpacity>
           )}
 
@@ -206,11 +209,15 @@ export default function YouTab() {
         <HeadingText>{dayjs().format("YYYY")}</HeadingText>
         <TodayBar />
         {loading ? (
-          <ActivityIndicator color={"coral"} />
-        ) : (
+          <ActivityIndicator color={"coral"} size={30} />
+        ) : events.length > 0 ? (
           events.map((event: any) => (
             <PersonalEvents key={event.id} {...event} />
           ))
+        ) : (
+          <View style={{ marginTop: 16 }}>
+            <BoldText>no events yet</BoldText>
+          </View>
         )}
       </ScrollView>
     </View>

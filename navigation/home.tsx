@@ -61,22 +61,6 @@ const HomeNavigation = () => {
               <Ionicons name="ios-arrow-down" size={15} color={"coral"} />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <TouchableOpacity
-              style={{
-                marginRight: 16,
-                borderRadius: 8,
-                backgroundColor: "#fff",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 4,
-              }}
-            >
-              <BoldText style={{ color: "coral", fontSize: 16 }}>
-                create
-              </BoldText>
-            </TouchableOpacity>
-          ),
           ...TransitionPresets.ModalPresentationIOS,
           animationEnabled: true,
           gestureEnabled: true,

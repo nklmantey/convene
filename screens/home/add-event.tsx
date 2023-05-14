@@ -120,6 +120,8 @@ export default function AddEventScreen({ navigation }: any) {
         });
       navigation.navigate("home");
     } catch (e) {
+      console.log(e);
+
       showMessage({
         message: "failed to create event!",
         type: "danger",
