@@ -1,4 +1,10 @@
-import { Image, Platform, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Platform,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
   BoldText,
@@ -10,15 +16,31 @@ import EventActionButton from "../../components/event-action-btn";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import BottomSheetAction from "../../components/bottom-sheet-action";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useAuthStore } from "../../store/useAuthStore";
 import * as ImagePicker from "expo-image-picker";
 import dayjs from "dayjs";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useRoute } from "@react-navigation/native";
+import { showMessage } from "react-native-flash-message";
+import { getAuth } from "firebase/auth";
 
 export default function AddEventScreen({ navigation }: any) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [mode, setMode] = useState<"date" | "time">("date");
+  const [show, setShow] = useState(false);
+  const [location, setLocation] = useState("");
+  const [image, setImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [visibility, setVisibility] = useState<"public" | "invitees only">(
+    "public"
+  );
+  const user = useAuthStore((state) => state.user);
+  const { params }: any = useRoute();
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -31,27 +53,21 @@ export default function AddEventScreen({ navigation }: any) {
             justifyContent: "center",
             padding: 4,
           }}
-          onPress={() => alert("hi")}
+          onPress={async () => await handleCreateEvent()}
         >
-          <BoldText style={{ color: "coral", fontSize: 16 }}>create</BoldText>
+          {loading ? (
+            <ActivityIndicator color={"coral"} />
+          ) : (
+            <BoldText style={{ color: "coral", fontSize: 16 }}>create</BoldText>
+          )}
         </TouchableOpacity>
       ),
     });
   }, [navigation]);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
-  const [mode, setMode] = useState<"date" | "time">("date");
-  const [showStartDate, setShowStartDate] = useState(false);
-  const [showEndDate, setShowEndDate] = useState(false);
-  const [location, setLocation] = useState("");
-  const [image, setImage] = useState<string | null>(null);
-  const [visibility, setVisibility] = useState<"public" | "invitees only">(
-    "public"
-  );
-  const user = useAuthStore((state) => state.user);
+  useEffect(() => {
+    params && setImage(params.unsplashImage);
+  }, [params]);
 
   // bottom sheet config
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -72,20 +88,13 @@ export default function AddEventScreen({ navigation }: any) {
   // date and time picker config
   const startOnChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate;
-    setShowStartDate(false);
+    setShow(false);
     setStartDate(currentDate);
-  };
-
-  const endOnChange = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate;
-    setShowEndDate(false);
-    setEndDate(currentDate);
   };
 
   const showMode = (currentMode: any) => {
     if (Platform.OS === "android" || Platform.OS === "ios") {
-      setShowStartDate(true);
-      setShowEndDate(true);
+      setShow(true);
     }
     setMode(currentMode);
   };
@@ -113,11 +122,34 @@ export default function AddEventScreen({ navigation }: any) {
   }
 
   // add event to firestore database
-  function handleCreateEvent() {
-    console.log(
-      dayjs(startDate).format("DD MMMM YYYY"),
-      dayjs(startDate).format("HH:mm")
-    );
+  async function handleCreateEvent() {
+    setLoading(true);
+    try {
+      await addDoc(collection(db, "events"), {
+        visibility: visibility,
+        start_date: dayjs(startDate).format("DD MMMM YYYY"),
+        start_time: dayjs(startDate).format("HH:mm"),
+        event_title: title,
+        event_image: image,
+        event_description: description,
+        event_location: "Accra, Ghana",
+        user_uid: user.uid,
+      });
+      setLoading(false),
+        showMessage({
+          message: "event successfully created!",
+          type: "success",
+          icon: "success",
+        });
+    } catch (e) {
+      console.log(e);
+      showMessage({
+        message: "failed to create event!",
+        type: "danger",
+        icon: "danger",
+      });
+      setLoading(false);
+    }
   }
 
   return (
@@ -139,11 +171,27 @@ export default function AddEventScreen({ navigation }: any) {
             alignItems: "center",
           }}
         >
-          <Image
-            source={{ uri: user.avatar }}
-            style={{ width: 60, height: 60, borderRadius: 30 }}
-            resizeMode="cover"
-          />
+          {user.avatar ? (
+            <Image
+              source={{ uri: user.avatar }}
+              style={{ width: 60, height: 60, borderRadius: 30 }}
+              resizeMode="cover"
+            />
+          ) : (
+            <TouchableOpacity
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                borderWidth: 1,
+                borderColor: "#d3d3d3",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons name="ios-person-outline" size={20} color={"#000"} />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
             onPress={() => {
               bottomSheetRef.current?.snapToIndex(1);
@@ -193,41 +241,13 @@ export default function AddEventScreen({ navigation }: any) {
                 </MediumText>
               </TouchableOpacity>
             </View>
-            {showStartDate && (
+            {show && (
               <DateTimePicker
                 testID="startdtpicker"
                 value={startDate!}
                 mode={mode}
                 is24Hour={true}
                 onChange={startOnChange}
-              />
-            )}
-          </View>
-
-          <View style={{ gap: 16 }}>
-            <View style={{ flexDirection: "row", gap: 8 }}>
-              <Ionicons name="ios-calendar-outline" size={20} color={"gray"} />
-              <TouchableOpacity onPress={() => showDatepicker()}>
-                <MediumText style={{ color: "gray", fontSize: 16 }}>
-                  select end date: {dayjs(endDate).format("DD MMMM YYYY")}
-                </MediumText>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flexDirection: "row", gap: 8 }}>
-              <Ionicons name="ios-time-outline" size={23} color={"gray"} />
-              <TouchableOpacity onPress={() => showTimepicker()}>
-                <MediumText style={{ color: "gray", fontSize: 16 }}>
-                  select end time: {dayjs(endDate).format("HH:mm")}
-                </MediumText>
-              </TouchableOpacity>
-            </View>
-            {showEndDate && (
-              <DateTimePicker
-                testID="enddtpicker"
-                value={endDate!}
-                mode={mode}
-                is24Hour={true}
-                onChange={endOnChange}
               />
             )}
           </View>
@@ -264,7 +284,13 @@ export default function AddEventScreen({ navigation }: any) {
         <EventActionButton onPress={() => {}} name="ios-location" />
         <EventActionButton onPress={() => {}} name="ios-people" />
         <EventActionButton
-          onPress={() => navigation.navigate("unsplash")}
+          onPress={() =>
+            navigation.navigate("unsplash", {
+              onPress: () => {
+                alert("hi");
+              },
+            })
+          }
           altName="unsplash"
         />
         <EventActionButton

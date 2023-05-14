@@ -53,6 +53,7 @@ export default function YouTab() {
     try {
       await signOut(auth);
       setUser({
+        uid: "",
         email: "",
         username: "",
         avatar: "",
@@ -126,7 +127,7 @@ export default function YouTab() {
                 justifyContent: "center",
               }}
             >
-              <Ionicons name="ios-image-outline" size={20} color={"#000"} />
+              <Ionicons name="ios-person-outline" size={20} color={"#000"} />
             </TouchableOpacity>
           )}
 

@@ -4,12 +4,12 @@ import { BoldText, MediumText } from "./styled-text";
 import { useCallback, useMemo, useRef, useState } from "react";
 import YouTab from "../screens/home/you";
 import FriendsTab from "../screens/home/friends";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import BottomSheetAction from "./bottom-sheet-action";
 
 export default function StickyBottomTabs() {
-  const { navigate }: any = useNavigation();
+  const { navigate }: NavigationProp<HomeStackParamList> = useNavigation();
   const [activeTab, setActiveTab] = useState<"you" | "friends">("you");
   const [sortBy, setSortBy] = useState<"nearest" | "recent">("nearest");
   const bottomSheetRef = useRef<BottomSheet>(null);

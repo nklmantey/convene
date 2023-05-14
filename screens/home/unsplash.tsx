@@ -1,21 +1,26 @@
-import { useState } from "react";
-import { ActivityIndicator, FlatList, Image, View } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Input } from "../../components/ui/input";
 import { PrimaryButton } from "../../components/ui/button";
 import { UNSPLASH_ACCESS_KEY } from "@env";
-
-type UnsplashImage = {
-  id: string;
-  urls: {
-    small: string;
-  };
-  description: string;
-};
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 export default function AddUnsplashImage() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [unsplashImage, setUnsplashImage] = useState("");
   const [results, setResults] = useState<string[]>([]);
+  const { navigate }: any = useNavigation();
+
+  useEffect(() => {
+    unsplashImage && navigate("add-event", { unsplashImage });
+  }, [unsplashImage]);
 
   async function handleImageSearch() {
     setLoading(true);
@@ -47,12 +52,25 @@ export default function AddUnsplashImage() {
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }: any) => (
-          <Image
-            key={item.id}
-            source={{ uri: item.urls.small }}
-            alt={item.description}
-            style={{ width: "49%", height: 200, borderRadius: 10, margin: 2 }}
-          />
+          <TouchableOpacity
+            style={{
+              width: "49%",
+              aspectRatio: 1,
+              margin: 2,
+            }}
+            onPress={() => setUnsplashImage(item.urls.small)}
+          >
+            <Image
+              key={item.id}
+              source={{ uri: item.urls.small }}
+              alt={item.description}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: 8,
+              }}
+            />
+          </TouchableOpacity>
         )}
         style={{
           marginTop: 16,

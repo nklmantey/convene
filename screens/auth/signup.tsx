@@ -3,8 +3,7 @@ import useDimensions from "../../hooks/useDimensions";
 import { HeadingText, SubHeadingText } from "../../components/styled-text";
 import { Input, PwdInput } from "../../components/ui/input";
 import { PrimaryButton } from "../../components/ui/button";
-import { useNavigation } from "@react-navigation/native";
-import { useAuthStore } from "../../store/useAuthStore";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
   validateEmail,
@@ -23,7 +22,7 @@ export default function SignupScreen() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { navigate }: any = useNavigation();
+  const { navigate }: NavigationProp<AuthStackParamList> = useNavigation();
   const { screenWidth, screenHeight } = useDimensions();
 
   async function handleSignup() {

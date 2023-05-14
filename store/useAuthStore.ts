@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface User {
+  uid: string | "";
   email: string | "";
   username: string | "";
   avatar: string | "";
@@ -19,6 +20,7 @@ export const useAuthStore = create(
   persist<AuthStore>(
     (set, _) => ({
       user: {
+        uid: "",
         email: "",
         username: "",
         avatar: "",

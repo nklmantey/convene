@@ -3,7 +3,7 @@ import useDimensions from "../../hooks/useDimensions";
 import { HeadingText, SubHeadingText } from "../../components/styled-text";
 import { Input, PwdInput } from "../../components/ui/input";
 import { PrimaryButton } from "../../components/ui/button";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useAuthStore } from "../../store/useAuthStore";
 import { validateEmail, validatePassword } from "../../utils/validateInput";
@@ -17,7 +17,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { navigate }: any = useNavigation();
+  const { navigate }: NavigationProp<AuthStackParamList> = useNavigation();
   const { screenWidth, screenHeight } = useDimensions();
   const setUser = useAuthStore((state) => state.setUser);
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
@@ -51,6 +51,7 @@ export default function LoginScreen() {
 
       if (docSnap.exists()) {
         setUser({
+          uid: user.uid,
           email: user.email!,
           username: docSnap.data().username,
           avatar: docSnap.data().avatar,
