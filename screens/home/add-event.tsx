@@ -25,6 +25,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRoute } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import { getAuth } from "firebase/auth";
+import { PrimaryButton } from "../../components/ui/button";
 
 export default function AddEventScreen({ navigation }: any) {
   const [title, setTitle] = useState("");
@@ -40,30 +41,6 @@ export default function AddEventScreen({ navigation }: any) {
   );
   const user = useAuthStore((state) => state.user);
   const { params }: any = useRoute();
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={{
-            marginRight: 16,
-            borderRadius: 8,
-            backgroundColor: "#fff",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 4,
-          }}
-          onPress={async () => await handleCreateEvent()}
-        >
-          {loading ? (
-            <ActivityIndicator color={"coral"} />
-          ) : (
-            <BoldText style={{ color: "coral", fontSize: 16 }}>create</BoldText>
-          )}
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
 
   useEffect(() => {
     params && setImage(params.unsplashImage);
@@ -141,8 +118,8 @@ export default function AddEventScreen({ navigation }: any) {
           type: "success",
           icon: "success",
         });
+      navigation.navigate("home");
     } catch (e) {
-      console.log(e);
       showMessage({
         message: "failed to create event!",
         type: "danger",
@@ -268,6 +245,13 @@ export default function AddEventScreen({ navigation }: any) {
             multiline={true}
             value={description}
           />
+
+          <PrimaryButton
+            title={
+              loading ? <ActivityIndicator color={"#fff"} /> : "create event"
+            }
+            onPress={() => handleCreateEvent()}
+          />
         </View>
       </View>
 
@@ -284,13 +268,7 @@ export default function AddEventScreen({ navigation }: any) {
         <EventActionButton onPress={() => {}} name="ios-location" />
         <EventActionButton onPress={() => {}} name="ios-people" />
         <EventActionButton
-          onPress={() =>
-            navigation.navigate("unsplash", {
-              onPress: () => {
-                alert("hi");
-              },
-            })
-          }
+          onPress={() => navigation.navigate("unsplash")}
           altName="unsplash"
         />
         <EventActionButton

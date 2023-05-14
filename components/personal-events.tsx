@@ -1,14 +1,35 @@
 import { Image, View } from "react-native";
 import { MediumText, RegularText } from "./styled-text";
 import ETA from "./eta-card";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 
 export default function PersonalEvents({
-  id,
-  image,
-  title,
-  datePosted,
-  eta,
+  event_title,
+  event_image,
+  start_date,
 }: any) {
+  const [eta, setEta] = useState("");
+
+  useEffect(() => {
+    function findEta() {
+      var relativeTime = require("dayjs/plugin/relativeTime");
+      dayjs.extend(relativeTime);
+      var customParseFormat = require("dayjs/plugin/customParseFormat");
+      dayjs.extend(customParseFormat);
+      var isToday = require("dayjs/plugin/isToday");
+      dayjs.extend(isToday);
+
+      const startDateObj = dayjs(start_date, "DD MMM YYYY");
+
+      const eta = dayjs().to(dayjs(startDateObj)); // in 31 years
+
+      eta.includes("ago") ? setEta("today") : setEta(eta);
+    }
+
+    findEta();
+  }, [eta]);
+
   return (
     <View
       style={{
@@ -27,7 +48,7 @@ export default function PersonalEvents({
           }}
         />
         <Image
-          source={{ uri: image }}
+          source={{ uri: event_image }}
           style={{ width: 80, height: 80, borderRadius: 40 }}
           resizeMode="cover"
         />
@@ -40,7 +61,7 @@ export default function PersonalEvents({
         />
       </View>
       <View style={{ marginBottom: 8, gap: 8 }}>
-        <MediumText>{title}</MediumText>
+        <MediumText>{event_title}</MediumText>
         <ETA eta={eta} />
       </View>
     </View>

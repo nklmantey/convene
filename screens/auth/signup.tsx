@@ -88,7 +88,11 @@ export default function SignupScreen() {
 
         setLoading(false);
       } catch (e) {
-        console.log("something went wrong:", e);
+        showMessage({
+          message: "failed to create account!",
+          type: "danger",
+          icon: "danger",
+        });
       }
     }
   }

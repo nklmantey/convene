@@ -57,7 +57,11 @@ export default function LoginScreen() {
           avatar: docSnap.data().avatar,
         });
       } else {
-        console.log("No such document");
+        showMessage({
+          message: "no document found!",
+          type: "danger",
+          icon: "danger",
+        });
       }
       return;
     }
@@ -92,12 +96,15 @@ export default function LoginScreen() {
                 icon: "danger",
               });
             }
-            console.log(error);
           });
 
         setLoading(false);
       } catch (e) {
-        console.log("something went wrong", e);
+        showMessage({
+          message: "failed to log in!",
+          type: "danger",
+          icon: "danger",
+        });
       }
     }
   }

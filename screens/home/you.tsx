@@ -1,20 +1,27 @@
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthStore } from "../../store/useAuthStore";
 import {
   BoldText,
+  HeadingText,
   MediumText,
-  SubHeadingText,
 } from "../../components/styled-text";
-import PersonalEvents from "../../components/personal-events";
-import { UserEvents as events } from "../../constants/user-events";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import PersonalEvents from "../../components/personal-events";
+import { showMessage } from "react-native-flash-message";
 
 function TodayBar() {
-  const today = dayjs().format("DD/MMM");
+  const today = dayjs().format("DD MMM");
 
   return (
     <View
@@ -24,6 +31,8 @@ function TodayBar() {
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 5,
+        marginTop: 8,
+        alignItems: "center",
         backgroundColor: "rgba(255,127,80, 0.3)",
         alignSelf: "flex-start",
       }}
@@ -35,7 +44,7 @@ function TodayBar() {
           alignItems: "center",
         }}
       >
-        <BoldText style={{ color: "coral" }}>TODAY - {today}</BoldText>
+        <BoldText style={{ color: "coral" }}>{today}</BoldText>
       </View>
     </View>
   );
@@ -46,6 +55,37 @@ export default function YouTab() {
   const setUser = useAuthStore((state) => state.setUser);
   const user = useAuthStore((state) => state.user);
   const [loading, setLoading] = useState(false);
+  const [events, setEvents] = useState<any>([]);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      setLoading(true);
+
+      try {
+        const userQuery = query(
+          collection(db, "events"),
+          where("user_uid", "==", user.uid)
+        );
+        const userEvents = onSnapshot(userQuery, (snapshot) => {
+          const newEvents = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setEvents(newEvents);
+        });
+        setLoading(false);
+      } catch (e) {
+        showMessage({
+          message: "failed to fetch your events!",
+          type: "danger",
+          icon: "danger",
+        });
+        setLoading(false);
+      }
+    }
+
+    fetchEvents();
+  }, []);
 
   async function handleLogout() {
     setLoading(true);
@@ -62,7 +102,11 @@ export default function YouTab() {
       setIsLoggedIn(false);
       setLoading(false);
     } catch (e) {
-      console.log(e);
+      showMessage({
+        message: "failed to log out!",
+        type: "danger",
+        icon: "danger",
+      });
     }
   }
 
@@ -127,7 +171,7 @@ export default function YouTab() {
                 justifyContent: "center",
               }}
             >
-              <Ionicons name="ios-person-outline" size={20} color={"#000"} />
+              <Ionicons name="ios-image-outline" size={20} color={"#000"} />
             </TouchableOpacity>
           )}
 
@@ -159,11 +203,15 @@ export default function YouTab() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 48 }}
       >
-        <SubHeadingText>2023</SubHeadingText>
+        <HeadingText>{dayjs().format("YYYY")}</HeadingText>
         <TodayBar />
-        {events.map((event) => (
-          <PersonalEvents key={event.id} {...event} />
-        ))}
+        {loading ? (
+          <ActivityIndicator color={"coral"} />
+        ) : (
+          events.map((event: any) => (
+            <PersonalEvents key={event.id} {...event} />
+          ))
+        )}
       </ScrollView>
     </View>
   );
