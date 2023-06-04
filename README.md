@@ -22,7 +22,7 @@ To run the app locally, follow these steps:
    git clone https://github.com/nklmnatey/convene.git
    cd convene
    ```
-2. Install packages and dependencies
+2. Install necessary packages and dependencies
    ```sh
    npm install
    ```
