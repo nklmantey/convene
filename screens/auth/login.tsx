@@ -157,7 +157,7 @@ export default function LoginScreen() {
       >
         <PrimaryButton
           title={loading ? <ActivityIndicator color={"#fff"} /> : "login"}
-          onPress={() => handleLogin()}
+          onPress={handleLogin}
         />
       </View>
     </View>

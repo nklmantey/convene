@@ -8,7 +8,7 @@ export default function EventActionButton({
 }: {
   name?: keyof typeof Ionicons.glyphMap;
   altName?: keyof typeof FontAwesome5.glyphMap;
-  onPress(): void;
+  onPress: () => void;
 }) {
   return (
     <TouchableOpacity

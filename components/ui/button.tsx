@@ -1,12 +1,18 @@
-import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
+import { TouchableOpacity, ViewStyle } from "react-native";
 import { BoldText } from "../styled-text";
 
-export function PrimaryButton(props: any) {
+type ButtonProps = {
+  title: string | JSX.Element;
+  onPress: () => void;
+  style?: ViewStyle;
+};
+
+export function PrimaryButton({ title, onPress, style }: ButtonProps) {
   return (
     <TouchableOpacity
-      onPress={props.onPress}
+      onPress={onPress}
       style={{
-        ...props.style,
+        ...style,
         backgroundColor: "coral",
         height: 50,
         alignItems: "center",
@@ -14,7 +20,7 @@ export function PrimaryButton(props: any) {
         borderRadius: 8,
       }}
     >
-      <BoldText style={{ fontSize: 16, color: "#fff" }}>{props.title}</BoldText>
+      <BoldText style={{ fontSize: 16, color: "#fff" }}>{title}</BoldText>
     </TouchableOpacity>
   );
 }

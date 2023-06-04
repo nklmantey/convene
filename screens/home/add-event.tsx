@@ -206,7 +206,7 @@ export default function AddEventScreen({ navigation }: any) {
           <View style={{ gap: 16 }}>
             <View style={{ flexDirection: "row", gap: 8 }}>
               <Ionicons name="ios-calendar-outline" size={20} color={"gray"} />
-              <TouchableOpacity onPress={() => showDatepicker()}>
+              <TouchableOpacity onPress={showDatepicker}>
                 <MediumText style={{ color: "gray", fontSize: 16 }}>
                   select start date: {dayjs(startDate).format("DD MMMM YYYY")}
                 </MediumText>
@@ -214,7 +214,7 @@ export default function AddEventScreen({ navigation }: any) {
             </View>
             <View style={{ flexDirection: "row", gap: 8 }}>
               <Ionicons name="ios-time-outline" size={23} color={"gray"} />
-              <TouchableOpacity onPress={() => showTimepicker()}>
+              <TouchableOpacity onPress={showTimepicker}>
                 <MediumText style={{ color: "gray", fontSize: 16 }}>
                   select start time: {dayjs(startDate).format("HH:mm")}
                 </MediumText>
@@ -252,7 +252,7 @@ export default function AddEventScreen({ navigation }: any) {
             title={
               loading ? <ActivityIndicator color={"#fff"} /> : "create event"
             }
-            onPress={() => handleCreateEvent()}
+            onPress={handleCreateEvent}
           />
         </View>
       </View>
@@ -273,10 +273,7 @@ export default function AddEventScreen({ navigation }: any) {
           onPress={() => navigation.navigate("unsplash")}
           altName="unsplash"
         />
-        <EventActionButton
-          onPress={() => selectImageFromGallery()}
-          name="ios-image"
-        />
+        <EventActionButton onPress={selectImageFromGallery} name="ios-image" />
         <EventActionButton onPress={() => {}} name="ios-pricetag" />
       </View>
 

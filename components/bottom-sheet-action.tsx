@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { BoldText } from "./styled-text";
 
 type BottomSheetActionProps = {
-  onPress(): void;
+  onPress: () => void;
   icon: keyof typeof Ionicons.glyphMap;
   title: string;
   subtext: string;

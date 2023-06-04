@@ -128,7 +128,7 @@ export default function YouTab() {
             name="ios-people-outline"
             size={25}
             color={"coral"}
-            onPress={() => handleLogout()}
+            onPress={handleLogout}
           />
         </View>
 
@@ -163,7 +163,7 @@ export default function YouTab() {
             />
           ) : (
             <TouchableOpacity
-              onPress={() => setAvatarFromGallery()}
+              onPress={setAvatarFromGallery}
               style={{
                 width: 60,
                 height: 60,

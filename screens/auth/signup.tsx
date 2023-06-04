@@ -150,7 +150,7 @@ export default function SignupScreen() {
       >
         <PrimaryButton
           title={loading ? <ActivityIndicator color={"#fff"} /> : "sign up"}
-          onPress={() => handleSignup()}
+          onPress={handleSignup}
         />
       </View>
     </View>

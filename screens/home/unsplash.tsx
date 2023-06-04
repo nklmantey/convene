@@ -43,7 +43,7 @@ export default function AddUnsplashImage() {
         />
         <PrimaryButton
           title={loading ? <ActivityIndicator color={"#fff"} /> : "search"}
-          onPress={() => handleImageSearch()}
+          onPress={handleImageSearch}
         />
       </View>
 

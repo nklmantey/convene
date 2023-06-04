@@ -56,7 +56,7 @@ const HomeNavigation = () => {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onPress={() => goBack()}
+              onPress={goBack}
             >
               <Ionicons name="ios-arrow-down" size={15} color={"coral"} />
             </TouchableOpacity>
@@ -83,7 +83,7 @@ const HomeNavigation = () => {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onPress={() => goBack()}
+              onPress={goBack}
             >
               <Ionicons name="ios-arrow-down" size={15} color={"coral"} />
             </TouchableOpacity>

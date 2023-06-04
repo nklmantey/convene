@@ -49,7 +49,7 @@ export default function AuthNavigation() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onPress={() => goBack()}
+              onPress={goBack}
             >
               <Ionicons name="ios-arrow-down" size={15} color={"coral"} />
             </TouchableOpacity>
@@ -76,7 +76,7 @@ export default function AuthNavigation() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onPress={() => goBack()}
+              onPress={goBack}
             >
               <Ionicons name="ios-arrow-back" size={15} color={"coral"} />
             </TouchableOpacity>
