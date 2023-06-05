@@ -24,7 +24,6 @@ import dayjs from "dayjs";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRoute } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
-import { getAuth } from "firebase/auth";
 import { PrimaryButton } from "../../components/ui/button";
 
 export default function AddEventScreen({ navigation }: any) {
@@ -97,6 +96,22 @@ export default function AddEventScreen({ navigation }: any) {
       setImage(result.assets[0].uri);
     }
   }
+
+  // create event id
+  function generateRandomString(length: number) {
+    let result = "";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+  }
+
+  const eventId = generateRandomString(20);
 
   // add event to firestore database
   async function handleCreateEvent() {

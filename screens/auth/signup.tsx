@@ -1,6 +1,16 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import useDimensions from "../../hooks/useDimensions";
-import { HeadingText, SubHeadingText } from "../../components/styled-text";
+import {
+  BoldText,
+  HeadingText,
+  SubHeadingText,
+} from "../../components/styled-text";
 import { Input, PwdInput } from "../../components/ui/input";
 import { PrimaryButton } from "../../components/ui/button";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -14,6 +24,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { showMessage } from "react-native-flash-message";
+import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 export default function SignupScreen() {
   const [username, setUsername] = useState("");
@@ -21,9 +33,23 @@ export default function SignupScreen() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState<string | null>("");
 
   const { navigate }: NavigationProp<AuthStackParamList> = useNavigation();
   const { screenWidth, screenHeight } = useDimensions();
+
+  async function selectImageFromGallery() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  }
 
   async function handleSignup() {
     // input validation
@@ -58,6 +84,7 @@ export default function SignupScreen() {
       await setDoc(doc(db, "users", uid), {
         email: email.trim(),
         username: username,
+        avatar: image,
       });
     }
 
@@ -81,9 +108,16 @@ export default function SignupScreen() {
             setPassword("");
             setConfirmPassword("");
             setUsername("");
+            setImage("");
           })
           .catch((error) => {
-            console.log(error);
+            if (error.code === "auth/email-already-in-use") {
+              showMessage({
+                message: "user already exists, go to login!",
+                type: "danger",
+                icon: "danger",
+              });
+            }
           });
 
         setLoading(false);
@@ -138,6 +172,38 @@ export default function SignupScreen() {
           onChangeText={(e) => setConfirmPassword(e)}
           value={confirmPassword}
         />
+        <View
+          style={{
+            gap: 8,
+            alignItems: "center",
+            alignSelf: "center",
+          }}
+        >
+          <TouchableOpacity
+            onPress={selectImageFromGallery}
+            style={{
+              width: 120,
+              height: 120,
+              borderRadius: 60,
+              borderWidth: 1,
+              borderStyle: "dashed",
+              borderColor: "#d3d3d3",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                style={{ width: 120, height: 120, borderRadius: 60 }}
+                resizeMode="cover"
+              />
+            ) : (
+              <Ionicons name="ios-person-outline" size={20} color={"#000"} />
+            )}
+          </TouchableOpacity>
+          <BoldText>upload an avatar</BoldText>
+        </View>
       </View>
 
       <View

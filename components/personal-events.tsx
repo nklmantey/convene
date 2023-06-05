@@ -2,29 +2,29 @@ import { Image, View } from "react-native";
 import { MediumText, RegularText } from "./styled-text";
 import ETA from "./eta-card";
 import dayjs from "dayjs";
+import "dayjs/locale/en";
+import relativeTime from "dayjs/plugin/relativeTime";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useEffect, useState } from "react";
 
 export default function PersonalEvents({
   event_title,
   event_image,
   start_date,
+  start_time,
 }: any) {
   const [eta, setEta] = useState("");
 
   useEffect(() => {
     function findEta() {
-      var relativeTime = require("dayjs/plugin/relativeTime");
       dayjs.extend(relativeTime);
-      var customParseFormat = require("dayjs/plugin/customParseFormat");
       dayjs.extend(customParseFormat);
-      var isToday = require("dayjs/plugin/isToday");
-      dayjs.extend(isToday);
 
-      const startDateObj = dayjs(start_date, "DD MMM YYYY");
-
-      const eta = dayjs().to(dayjs(startDateObj)); // in 31 years
-
-      eta.includes("ago") ? setEta("today") : setEta(eta);
+      const dateTime = start_date + " " + start_time;
+      const calculatedEta = dayjs(dateTime, "DD MMMM YYYY ").fromNow();
+      calculatedEta.includes("minutes")
+        ? setEta("today")
+        : setEta(calculatedEta);
     }
 
     findEta();

@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   Image,
+  RefreshControl,
   ScrollView,
   TouchableOpacity,
   View,
@@ -16,9 +17,20 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import PersonalEvents from "../../components/personal-events";
 import { showMessage } from "react-native-flash-message";
+import { FlatList } from "react-native-gesture-handler";
+
+type Props = {
+  sortBy: "nearest" | "recent";
+};
 
 function TodayBar() {
   const today = dayjs().format("DD MMM");
@@ -50,42 +62,65 @@ function TodayBar() {
   );
 }
 
-export default function YouTab() {
+export default function YouTab({ sortBy }: Props) {
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
   const setUser = useAuthStore((state) => state.setUser);
   const user = useAuthStore((state) => state.user);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<any>([]);
 
-  useEffect(() => {
-    async function fetchEvents() {
-      setLoading(true);
-
-      try {
-        const userQuery = query(
-          collection(db, "events"),
-          where("user_uid", "==", user.uid)
-        );
-        const userEvents = onSnapshot(userQuery, (snapshot) => {
-          const newEvents = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setEvents(newEvents);
-        });
-        setLoading(false);
-      } catch (e) {
-        showMessage({
-          message: "failed to fetch your events!",
-          type: "danger",
-          icon: "danger",
-        });
-        setLoading(false);
-      }
+  async function fetchEventsByRecent() {
+    try {
+      const userQuery = query(
+        collection(db, "events"),
+        where("user_uid", "==", user.uid)
+      );
+      const userEvents = onSnapshot(userQuery, (snapshot) => {
+        const newEvents = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setEvents(newEvents);
+      });
+      setLoading(false);
+    } catch (e) {
+      showMessage({
+        message: "failed to fetch your events!",
+        type: "danger",
+        icon: "danger",
+      });
+      setLoading(false);
     }
+  }
 
-    fetchEvents();
-  }, []);
+  async function fetchEventsByUpcoming() {
+    try {
+      const userQuery = query(
+        collection(db, "events"),
+        where("user_uid", "==", user.uid),
+        orderBy("start_date", "asc")
+      );
+      const userEvents = onSnapshot(userQuery, (snapshot) => {
+        const newEvents = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setEvents(newEvents);
+      });
+      setLoading(false);
+    } catch (e) {
+      showMessage({
+        message: "failed to fetch your events!",
+        type: "danger",
+        icon: "danger",
+      });
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    sortBy === "recent" ? fetchEventsByRecent() : fetchEventsByUpcoming();
+  }, [sortBy]);
 
   async function handleLogout() {
     setLoading(true);
@@ -109,8 +144,6 @@ export default function YouTab() {
       });
     }
   }
-
-  async function setAvatarFromGallery() {}
 
   return (
     <View style={{ flex: 1 }}>
@@ -163,7 +196,6 @@ export default function YouTab() {
             />
           ) : (
             <TouchableOpacity
-              onPress={setAvatarFromGallery}
               style={{
                 width: 60,
                 height: 60,
@@ -180,15 +212,15 @@ export default function YouTab() {
 
           <View style={{ alignItems: "center" }}>
             <MediumText>Events</MediumText>
-            <BoldText>4</BoldText>
+            <BoldText>{events.length}</BoldText>
           </View>
           <View style={{ alignItems: "center" }}>
             <MediumText>Bookmarks</MediumText>
-            <BoldText>2</BoldText>
+            <BoldText>0</BoldText>
           </View>
           <View style={{ alignItems: "center" }}>
             <MediumText>Friends</MediumText>
-            <BoldText>3</BoldText>
+            <BoldText>0</BoldText>
           </View>
         </View>
 
@@ -201,25 +233,49 @@ export default function YouTab() {
       </View>
 
       {/* all events */}
-      <ScrollView
-        style={{ flex: 1, paddingHorizontal: 16, paddingVertical: 8 }}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 48 }}
-      >
-        <HeadingText>{dayjs().format("YYYY")}</HeadingText>
-        <TodayBar />
+      <View style={{ flex: 1, paddingHorizontal: 16, paddingVertical: 8 }}>
         {loading ? (
           <ActivityIndicator color={"coral"} size={30} />
-        ) : events.length > 0 ? (
-          events.map((event: any) => (
-            <PersonalEvents key={event.id} {...event} />
-          ))
         ) : (
-          <View style={{ marginTop: 16 }}>
-            <BoldText>no events yet</BoldText>
-          </View>
+          <FlatList
+            data={events}
+            renderItem={({ item }) => <PersonalEvents {...item} />}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={
+                  sortBy === "recent"
+                    ? fetchEventsByRecent
+                    : fetchEventsByUpcoming
+                }
+                colors={["coral"]}
+              />
+            }
+            ListHeaderComponent={() => (
+              <>
+                <HeadingText>{dayjs().format("YYYY")}</HeadingText>
+                <TodayBar />
+              </>
+            )}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  marginTop: 16,
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <Image
+                  source={require("../../assets/empty.png")}
+                  style={{ width: 250, height: 250 }}
+                />
+              </View>
+            )}
+            contentContainerStyle={{ paddingBottom: 32 }}
+          />
         )}
-      </ScrollView>
+      </View>
     </View>
   );
 }

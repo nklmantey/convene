@@ -11,7 +11,7 @@ import BottomSheetAction from "./bottom-sheet-action";
 export default function StickyBottomTabs() {
   const { navigate }: NavigationProp<HomeStackParamList> = useNavigation();
   const [activeTab, setActiveTab] = useState<"you" | "friends">("you");
-  const [sortBy, setSortBy] = useState<"nearest" | "recent">("nearest");
+  const [sortBy, setSortBy] = useState<"nearest" | "recent">("recent");
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["5%", "30%"], []);
 
@@ -30,7 +30,7 @@ export default function StickyBottomTabs() {
 
   return (
     <View style={{ flex: 1, paddingVertical: 24 }}>
-      <TabNavigation activeTab={activeTab} />
+      <TabNavigation activeTab={activeTab} sortBy={sortBy} />
       <View
         style={{
           position: "absolute",
@@ -168,10 +168,15 @@ export default function StickyBottomTabs() {
   );
 }
 
-function TabNavigation({ activeTab }: { activeTab: string }) {
+type Props = {
+  activeTab: string;
+  sortBy: "nearest" | "recent";
+};
+
+function TabNavigation({ activeTab, sortBy }: Props) {
   return (
     <View style={{ flex: 1 }}>
-      {activeTab === "you" ? <YouTab /> : <FriendsTab />}
+      {activeTab === "you" ? <YouTab sortBy={sortBy} /> : <FriendsTab />}
     </View>
   );
 }

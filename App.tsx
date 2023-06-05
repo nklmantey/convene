@@ -6,6 +6,7 @@ import useCachedResources from "./hooks/useCachedResources";
 import { useEffect } from "react";
 import { useAuthStore } from "./store/useAuthStore";
 import FlashMessage from "react-native-flash-message";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
