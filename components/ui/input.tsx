@@ -123,8 +123,9 @@ export { Input, PwdInput, BorderlessInput };
 
 const styles = StyleSheet.create({
   input: {
-    padding: 12,
-    fontSize: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
+    fontSize: 18,
     borderWidth: 1,
     borderRadius: 8,
     width: "100%",

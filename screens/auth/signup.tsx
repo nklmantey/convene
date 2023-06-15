@@ -174,16 +174,16 @@ export default function SignupScreen() {
         />
         <View
           style={{
-            gap: 8,
+            gap: 16,
             alignItems: "center",
-            alignSelf: "center",
+            flexDirection: "row",
           }}
         >
           <TouchableOpacity
             onPress={selectImageFromGallery}
             style={{
-              width: 120,
-              height: 120,
+              width: 80,
+              height: 80,
               borderRadius: 60,
               borderWidth: 1,
               borderStyle: "dashed",

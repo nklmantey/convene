@@ -14,13 +14,13 @@ export function PrimaryButton({ title, onPress, style }: ButtonProps) {
       style={{
         ...style,
         backgroundColor: "coral",
-        height: 50,
+        height: 55,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 8,
+        borderRadius: 14,
       }}
     >
-      <BoldText style={{ fontSize: 16, color: "#fff" }}>{title}</BoldText>
+      <BoldText style={{ fontSize: 18, color: "#fff" }}>{title}</BoldText>
     </TouchableOpacity>
   );
 }
