@@ -130,6 +130,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: "100%",
     alignSelf: "center",
-    fontFamily: "InterMedium",
+    fontFamily: "InterSoftMedium",
   },
 });

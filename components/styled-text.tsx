@@ -1,24 +1,32 @@
 import { Text, TextProps } from "react-native";
 
 export function BoldText(props: TextProps) {
-  return <Text {...props} style={[props.style, { fontFamily: "InterBold" }]} />;
+  return (
+    <Text {...props} style={[props.style, { fontFamily: "InterSoftBold" }]} />
+  );
 }
 
 export function SemiBoldText(props: TextProps) {
   return (
-    <Text {...props} style={[props.style, { fontFamily: "InterSemiBold" }]} />
+    <Text
+      {...props}
+      style={[props.style, { fontFamily: "InterSoftSemiBold" }]}
+    />
   );
 }
 
 export function RegularText(props: TextProps) {
   return (
-    <Text {...props} style={[props.style, { fontFamily: "InterRegular" }]} />
+    <Text
+      {...props}
+      style={[props.style, { fontFamily: "InterSoftRegular" }]}
+    />
   );
 }
 
 export function MediumText(props: TextProps) {
   return (
-    <Text {...props} style={[props.style, { fontFamily: "InterMedium" }]} />
+    <Text {...props} style={[props.style, { fontFamily: "InterSoftMedium" }]} />
   );
 }
 
@@ -26,7 +34,7 @@ export function HeadingText(props: TextProps) {
   return (
     <Text
       {...props}
-      style={[props.style, { fontFamily: "InterBold", fontSize: 24 }]}
+      style={[props.style, { fontFamily: "InterSoftBold", fontSize: 24 }]}
     />
   );
 }
@@ -37,7 +45,7 @@ export function SubHeadingText(props: TextProps) {
       {...props}
       style={[
         props.style,
-        { fontFamily: "InterMedium", fontSize: 16, color: "gray" },
+        { fontFamily: "InterSoftMedium", fontSize: 16, color: "gray" },
       ]}
     />
   );

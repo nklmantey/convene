@@ -22,7 +22,7 @@ export default function AuthNavigation() {
           borderBottomWidth: 1,
         },
         headerTitleStyle: {
-          fontFamily: "InterBold",
+          fontFamily: "InterSoftBold",
           fontSize: 24,
           color: "#000",
         },
