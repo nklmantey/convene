@@ -117,7 +117,8 @@ export default function LoginScreen() {
         flex: 1,
         backgroundColor: "#fff",
         paddingHorizontal: 16,
-        paddingVertical: 24,
+        justifyContent: "space-between",
+        paddingVertical: 32,
       }}
     >
       <View>
@@ -127,39 +128,30 @@ export default function LoginScreen() {
         <SubHeadingText onPress={() => navigate("signup")}>
           don't have an account? create one now
         </SubHeadingText>
-      </View>
 
-      <View style={{ marginTop: 32, gap: 16 }}>
-        <Input
-          placeholder="email address"
-          onChangeText={(e) => setEmail(e)}
-          value={email}
-        />
-        <View style={{ gap: 8 }}>
-          <PwdInput
-            placeholder="password"
-            onChangeText={(e) => setPassword(e)}
-            value={password}
+        <View style={{ marginTop: 32, gap: 16 }}>
+          <Input
+            placeholder="email address"
+            onChangeText={(e) => setEmail(e)}
+            value={email}
           />
-          <SubHeadingText onPress={() => navigate("forgot-password")}>
-            forgot password? reset it
-          </SubHeadingText>
+          <View style={{ gap: 8 }}>
+            <PwdInput
+              placeholder="password"
+              onChangeText={(e) => setPassword(e)}
+              value={password}
+            />
+            <SubHeadingText onPress={() => navigate("forgot-password")}>
+              forgot password? reset it
+            </SubHeadingText>
+          </View>
         </View>
       </View>
 
-      <View
-        style={{
-          position: "absolute",
-          bottom: 24,
-          width: "100%",
-          alignSelf: "center",
-        }}
-      >
-        <PrimaryButton
-          title={loading ? <ActivityIndicator color={"#fff"} /> : "login"}
-          onPress={handleLogin}
-        />
-      </View>
+      <PrimaryButton
+        title={loading ? <ActivityIndicator color={"#fff"} /> : "login"}
+        onPress={handleLogin}
+      />
     </View>
   );
 }

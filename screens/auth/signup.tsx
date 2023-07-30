@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import useDimensions from "../../hooks/useDimensions";
 import {
@@ -132,15 +133,15 @@ export default function SignupScreen() {
   }
 
   return (
-    <View
+    <ScrollView
       style={{
         width: screenWidth,
         height: screenHeight,
-        flex: 1,
         backgroundColor: "#fff",
         paddingHorizontal: 16,
-        paddingVertical: 24,
+        paddingVertical: 32,
       }}
+      contentContainerStyle={{ flex: 1, justifyContent: "space-between" }}
     >
       <View>
         <HeadingText style={{ color: "coral" }}>
@@ -149,76 +150,71 @@ export default function SignupScreen() {
         <SubHeadingText onPress={() => navigate("login")}>
           already have an account? login
         </SubHeadingText>
-      </View>
 
-      <View style={{ marginTop: 32, gap: 16 }}>
-        <Input
-          placeholder="create a unique username"
-          onChangeText={(e) => setUsername(e)}
-          value={username}
-        />
-        <Input
-          placeholder="email address"
-          onChangeText={(e) => setEmail(e)}
-          value={email}
-        />
-        <PwdInput
-          placeholder="password"
-          onChangeText={(e) => setPassword(e)}
-          value={password}
-        />
-        <PwdInput
-          placeholder="confirm password"
-          onChangeText={(e) => setConfirmPassword(e)}
-          value={confirmPassword}
-        />
-        <View
-          style={{
-            gap: 16,
-            alignItems: "center",
-            flexDirection: "row",
-          }}
-        >
-          <TouchableOpacity
-            onPress={selectImageFromGallery}
+        <View style={{ marginTop: 32, gap: 16 }}>
+          <Input
+            placeholder="create a unique username"
+            onChangeText={(e) => setUsername(e)}
+            value={username}
+          />
+          <Input
+            placeholder="email address"
+            onChangeText={(e) => setEmail(e)}
+            value={email}
+          />
+          <PwdInput
+            placeholder="password"
+            onChangeText={(e) => setPassword(e)}
+            value={password}
+          />
+          <PwdInput
+            placeholder="confirm password"
+            onChangeText={(e) => setConfirmPassword(e)}
+            value={confirmPassword}
+          />
+          <View
             style={{
-              width: 80,
-              height: 80,
-              borderRadius: 60,
-              borderWidth: 1,
-              borderStyle: "dashed",
-              borderColor: "#d3d3d3",
+              gap: 16,
               alignItems: "center",
-              justifyContent: "center",
+              flexDirection: "column",
             }}
           >
+            <TouchableOpacity
+              onPress={selectImageFromGallery}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+                borderWidth: 1,
+                borderStyle: "dashed",
+                borderColor: "#d3d3d3",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: 100, height: 100, borderRadius: 50 }}
+                  resizeMode="cover"
+                />
+              ) : (
+                <Ionicons name="ios-person-outline" size={20} color={"#000"} />
+              )}
+            </TouchableOpacity>
             {image ? (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 120, height: 120, borderRadius: 60 }}
-                resizeMode="cover"
-              />
+              <BoldText>upload a new avatar</BoldText>
             ) : (
-              <Ionicons name="ios-person-outline" size={20} color={"#000"} />
+              <BoldText>upload an avatar</BoldText>
             )}
-          </TouchableOpacity>
-          <BoldText>upload an avatar</BoldText>
+          </View>
         </View>
       </View>
 
-      <View
-        style={{
-          position: "absolute",
-          bottom: 24,
-          width: "100%",
-          alignSelf: "center",
-        }}
-      >
-        <PrimaryButton
-          title={loading ? <ActivityIndicator color={"#fff"} /> : "sign up"}
-          onPress={handleSignup}
-        />
-      </View>
-    </View>
+      <PrimaryButton
+        title={loading ? <ActivityIndicator color={"#fff"} /> : "sign up"}
+        onPress={handleSignup}
+      />
+    </ScrollView>
   );
 }
