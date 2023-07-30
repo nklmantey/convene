@@ -8,7 +8,6 @@ import {
   FIREBASE_MESSAGING_SENDER_ID,
 } from "@env";
 import {
-  getAuth,
   initializeAuth,
   getReactNativePersistence,
 } from "firebase/auth/react-native";

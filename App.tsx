@@ -22,17 +22,15 @@ export default function App() {
 
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar style="auto" />
-        <RootNavigation />
-        <FlashMessage
-          position="top"
-          animated
-          statusBarHeight={40}
-          titleStyle={{ fontFamily: "InterMedium", fontSize: 16 }}
-          duration={3000}
-        />
-      </SafeAreaView>
+      <StatusBar style="auto" />
+      <RootNavigation />
+      <FlashMessage
+        position="top"
+        animated
+        statusBarHeight={40}
+        titleStyle={{ fontFamily: "InterSoftMedium", fontSize: 16 }}
+        duration={3000}
+      />
     </SafeAreaProvider>
   );
 }
