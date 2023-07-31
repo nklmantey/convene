@@ -35,6 +35,8 @@ To run the app locally, follow these steps:
 <details>
 	<summary>View screenshots</summary>
 <p align="left">
+  <img src="screenshots/login2.jpg" width="320" style="border-radius:50%" />
+  <img src="screenshots/signup2.jpg" width="320" style="border-radius:50%" />
   <img src="screenshots/home.jpg" width="320" style="border-radius:50%" />
   <img src="screenshots/home-w-bs.jpg" width="320" style="border-radius:50%" />
   <img src="screenshots/add-event.jpg" width="320" style="border-radius:50%" />
