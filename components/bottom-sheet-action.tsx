@@ -40,12 +40,9 @@ export default function BottomSheetAction({
       >
         <Ionicons name={icon} size={20} color={"#fff"} />
       </View>
-      <View style={{ gap: 2 }}>
+      <View style={{ gap: 2, backgroundColor: "#fff", maxWidth: "90%" }}>
         <BoldText style={{ fontSize: 18, color: "coral" }}>{title}</BoldText>
-        <BoldText
-          style={{ fontSize: 12, color: "gray", width: "70%" }}
-          numberOfLines={3}
-        >
+        <BoldText style={{ fontSize: 12, color: "gray" }} numberOfLines={3}>
           {subtext}
         </BoldText>
       </View>
