@@ -15,11 +15,15 @@ Convene is a shared social calendar platform for you &amp; your friends so you c
 <li>Typescript</li>
 
 ## Getting Started
+
+### Prerequisites
+Either download the Expo Go app to run this app locally on your physical device or set up an emulator with Expo Go installed on it. [Read more on how to do this here.](https://docs.expo.dev/?utm_source=google&utm_medium=cpc&utm_content=search&gclid=CjwKCAjwt52mBhB5EiwA05YKo9ApcV0tDCvRc2lLjmf4kEnshwrvWzpUCQLDWf4sgSq5jG3gGiRhRxoCjUcQAvD_BwE)
+
 To run the app locally, follow these steps:
 
 1. Clone this repository and navigate into the project
    ```sh
-   git clone https://github.com/nklmnatey/convene.git
+   git clone https://github.com/nklmantey/convene.git
    cd convene
    ```
 2. Install necessary packages and dependencies
