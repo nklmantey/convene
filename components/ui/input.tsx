@@ -17,12 +17,14 @@ export type InputProps = {
   maxLength?: number;
   style?: ViewStyle;
   multiline?: boolean;
+  autoFocus?: boolean;
 };
 
 const Input = (props: InputProps) => {
   return (
     <View {...props} style={props.style}>
       <TextInput
+        returnKeyType="done"
         placeholder={props.placeholder}
         placeholderTextColor="gainsboro"
         onChangeText={props.onChangeText}
@@ -45,7 +47,9 @@ const BorderlessInput = (props: InputProps) => {
   return (
     <View {...props} style={props.style}>
       <TextInput
-        multiline={true}
+        autoFocus={props.autoFocus}
+        returnKeyType="done"
+        multiline={props.multiline}
         blurOnSubmit={true}
         placeholder={props.placeholder}
         placeholderTextColor="gray"
@@ -61,7 +65,6 @@ const BorderlessInput = (props: InputProps) => {
             flex: 1,
           },
         ]}
-        returnKeyType="done"
       />
     </View>
   );
@@ -86,6 +89,7 @@ const PwdInput = ({ placeholder, onChangeText, value }: InputProps) => {
         }}
       >
         <TextInput
+          returnKeyType="done"
           placeholder={placeholder}
           placeholderTextColor={"gainsboro"}
           onChangeText={onChangeText}

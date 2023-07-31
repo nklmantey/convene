@@ -1,11 +1,4 @@
-import {
-  ActivityIndicator,
-  Image,
-  Platform,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, Image, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
   BoldText,
@@ -22,11 +15,11 @@ import { db } from "../../config/firebase";
 import { useAuthStore } from "../../store/useAuthStore";
 import * as ImagePicker from "expo-image-picker";
 import dayjs from "dayjs";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRoute } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import { PrimaryButton } from "../../components/ui/button";
 import CustomDatePicker from "../../components/date-picker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function AddEventScreen({ navigation }: any) {
   const [title, setTitle] = useState("");
@@ -50,7 +43,7 @@ export default function AddEventScreen({ navigation }: any) {
 
   // bottom sheet config
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["5%", "35%"], []);
+  const snapPoints = useMemo(() => ["5%", "30%"], []);
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -137,7 +130,11 @@ export default function AddEventScreen({ navigation }: any) {
       }}
     >
       {/* header */}
-      <ScrollView style={{ flex: 1 }}>
+      <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingBottom: 8 }}
+      >
         <View
           style={{
             paddingHorizontal: 16,
@@ -198,6 +195,7 @@ export default function AddEventScreen({ navigation }: any) {
             onChangeText={(e) => setTitle(e)}
             maxLength={50}
             value={title}
+            autoFocus={true}
           />
 
           <View style={{ gap: 16 }}>
@@ -223,6 +221,7 @@ export default function AddEventScreen({ navigation }: any) {
                 </MediumText>
               </TouchableOpacity>
             </View>
+
             {datePickerOpen && (
               <CustomDatePicker
                 date={startDate}
@@ -231,6 +230,7 @@ export default function AddEventScreen({ navigation }: any) {
                 mode={"date"}
               />
             )}
+
             {timePickerOpen && (
               <CustomDatePicker
                 date={startTime}
@@ -244,17 +244,22 @@ export default function AddEventScreen({ navigation }: any) {
           {image && (
             <Image
               source={{ uri: image }}
-              style={{ width: "100%", height: 200, borderRadius: 16 }}
+              style={{
+                width: "100%",
+                height: undefined,
+                aspectRatio: 3 / 2,
+                borderRadius: 16,
+              }}
               resizeMode="cover"
             />
           )}
-
-          {location && <BoldText>{location}</BoldText>}
 
           <BorderlessInput
             placeholder="describe your event"
             onChangeText={(e) => setDescription(e)}
             value={description}
+            multiline={true}
+            autoFocus={false}
           />
 
           <PrimaryButton
@@ -264,7 +269,7 @@ export default function AddEventScreen({ navigation }: any) {
             onPress={handleCreateEvent}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
 
       {/* bottom action bar */}
       <View
@@ -294,9 +299,8 @@ export default function AddEventScreen({ navigation }: any) {
       >
         <View
           style={{
-            flex: 1,
-            backgroundColor: "#fff",
-            gap: 8,
+            padding: 8,
+            gap: 24,
           }}
         >
           <BottomSheetAction

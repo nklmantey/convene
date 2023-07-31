@@ -34,7 +34,7 @@ export default function StickyBottomTabs() {
       <View
         style={{
           position: "absolute",
-          bottom: 24,
+          bottom: 30,
           width: "100%",
           alignSelf: "center",
           flexDirection: "row",
@@ -86,7 +86,7 @@ export default function StickyBottomTabs() {
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 20,
-              padding: 4,
+              padding: 6,
             }}
           >
             {activeTab === "you" ? (
@@ -103,7 +103,7 @@ export default function StickyBottomTabs() {
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 20,
-              padding: 4,
+              padding: 6,
             }}
           >
             {activeTab === "friends" ? (
