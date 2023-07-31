@@ -60,8 +60,8 @@ export default function SignupScreen() {
           type: "danger",
           icon: "danger",
         })
-      : validateEmail(email.trim())
-      ? validatePassword(password) || validatePassword(confirmPassword)
+      : validateEmail(email)
+      ? validatePassword(password)
         ? validateMatchPassword(password, confirmPassword)
           ? await createAccount()
           : showMessage({

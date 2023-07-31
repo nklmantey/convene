@@ -34,14 +34,14 @@ type Props = {
 };
 
 function TodayBar() {
-  const today = dayjs().format("DD MMM");
+  const today = dayjs().format("DD MMMM");
 
   return (
     <View
       style={{
         borderColor: "coral",
         borderWidth: 1,
-        paddingHorizontal: 8,
+        paddingHorizontal: 12,
         paddingVertical: 4,
         borderRadius: 5,
         marginTop: 8,
@@ -159,17 +159,17 @@ export default function YouTab({ sortBy }: Props) {
       >
         <View>
           <Ionicons
-            name="ios-people-outline"
+            name="ios-people"
             size={25}
             color={"coral"}
             onPress={handleLogout}
           />
         </View>
 
-        <View style={{ flexDirection: "row", gap: 16, alignItems: "center" }}>
+        <View style={{ flexDirection: "row", gap: 20, alignItems: "center" }}>
           <Ionicons name="ios-chatbubbles-outline" size={25} color={"#000"} />
           <Ionicons name="ios-notifications-outline" size={25} color={"#000"} />
-          <Ionicons name="ios-menu" size={25} color={"#000"} />
+          <Ionicons name="ios-settings-outline" size={25} color={"#000"} />
         </View>
       </View>
 
@@ -179,7 +179,7 @@ export default function YouTab({ sortBy }: Props) {
           borderBottomColor: "#eee",
           borderBottomWidth: 1,
           paddingHorizontal: 16,
-          marginTop: 16,
+          marginTop: 24,
         }}
       >
         <View
