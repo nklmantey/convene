@@ -12,4 +12,5 @@ type HomeStackParamList = {
   home: undefined;
   "add-event": undefined;
   unsplash: undefined;
+  settings: undefined;
 };

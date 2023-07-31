@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { BoldText } from "../components/styled-text";
 import AddUnsplashImage from "../screens/home/unsplash";
+import Settings from "../screens/home/settings";
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
@@ -108,6 +109,29 @@ const HomeNavigation = () => {
           animationEnabled: true,
           gestureEnabled: true,
           gestureDirection: "vertical",
+        })}
+      />
+      <Stack.Screen
+        name="settings"
+        component={Settings}
+        options={({ navigation, route }) => ({
+          title: "settings",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                marginLeft: 16,
+                width: 30,
+                height: 30,
+                borderRadius: 8,
+                backgroundColor: "#eee",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={goBack}
+            >
+              <Ionicons name="ios-arrow-back" size={15} color={"coral"} />
+            </TouchableOpacity>
+          ),
         })}
       />
     </Stack.Navigator>

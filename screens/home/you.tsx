@@ -3,7 +3,6 @@ import {
   Image,
   RefreshControl,
   SafeAreaView,
-  ScrollView,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -16,8 +15,7 @@ import {
 } from "../../components/styled-text";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { signOut } from "firebase/auth";
-import { auth, db } from "../../config/firebase";
+import { db } from "../../config/firebase";
 import {
   collection,
   onSnapshot,
@@ -28,6 +26,7 @@ import {
 import PersonalEvents from "../../components/personal-events";
 import { showMessage } from "react-native-flash-message";
 import { FlatList } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 type Props = {
   sortBy: "nearest" | "recent";
@@ -64,11 +63,12 @@ function TodayBar() {
 }
 
 export default function YouTab({ sortBy }: Props) {
-  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
-  const setUser = useAuthStore((state) => state.setUser);
   const user = useAuthStore((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<any>([]);
+  const [bookmarks, setBookmarks] = useState<any>([]);
+  const [friends, setFriends] = useState<any>([]);
+  const { navigate } = useNavigation();
 
   async function fetchEventsByRecent() {
     try {
@@ -123,29 +123,6 @@ export default function YouTab({ sortBy }: Props) {
     sortBy === "recent" ? fetchEventsByRecent() : fetchEventsByUpcoming();
   }, [sortBy]);
 
-  async function handleLogout() {
-    setLoading(true);
-
-    try {
-      await signOut(auth);
-      setUser({
-        uid: "",
-        email: "",
-        username: "",
-        avatar: "",
-      });
-
-      setIsLoggedIn(false);
-      setLoading(false);
-    } catch (e) {
-      showMessage({
-        message: "failed to log out!",
-        type: "danger",
-        icon: "danger",
-      });
-    }
-  }
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/* header */}
@@ -158,22 +135,22 @@ export default function YouTab({ sortBy }: Props) {
         }}
       >
         <View>
-          <Ionicons
-            name="ios-people"
-            size={25}
-            color={"coral"}
-            onPress={handleLogout}
-          />
+          <Ionicons name="ios-people" size={25} color={"coral"} />
         </View>
 
         <View style={{ flexDirection: "row", gap: 20, alignItems: "center" }}>
           <Ionicons name="ios-chatbubbles-outline" size={25} color={"#000"} />
           <Ionicons name="ios-notifications-outline" size={25} color={"#000"} />
-          <Ionicons name="ios-settings-outline" size={25} color={"#000"} />
+          <Ionicons
+            onPress={() => navigate("settings")}
+            name="ios-settings-outline"
+            size={25}
+            color={"#000"}
+          />
         </View>
       </View>
 
-      {/* user profile */}
+      {/* user stats */}
       <View
         style={{
           borderBottomColor: "#eee",
@@ -186,7 +163,7 @@ export default function YouTab({ sortBy }: Props) {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "flex-start",
+            alignItems: "center",
           }}
         >
           {user.avatar ? (
@@ -212,24 +189,29 @@ export default function YouTab({ sortBy }: Props) {
           )}
 
           <View style={{ alignItems: "center" }}>
-            <MediumText>Events</MediumText>
             <BoldText>{events.length}</BoldText>
+            <MediumText>events</MediumText>
           </View>
           <View style={{ alignItems: "center" }}>
-            <MediumText>Bookmarks</MediumText>
-            <BoldText>0</BoldText>
+            <BoldText
+              style={{ color: bookmarks.length === 0 ? "#d3d3d3" : "black" }}
+            >
+              {bookmarks.length}
+            </BoldText>
+            <MediumText>bookmarks</MediumText>
           </View>
           <View style={{ alignItems: "center" }}>
-            <MediumText>Friends</MediumText>
-            <BoldText>0</BoldText>
+            <BoldText
+              style={{ color: friends.length === 0 ? "#d3d3d3" : "black" }}
+            >
+              {friends.length}
+            </BoldText>
+            <MediumText>friends</MediumText>
           </View>
         </View>
 
         <View style={{ marginVertical: 8, width: "50%" }}>
           <BoldText>{user.username}</BoldText>
-          <MediumText style={{ fontSize: 12 }}>
-            I love going places, travelling
-          </MediumText>
         </View>
       </View>
 
