@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   Image,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View,
@@ -146,7 +147,7 @@ export default function YouTab({ sortBy }: Props) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       {/* header */}
       <View
         style={{
@@ -276,6 +277,6 @@ export default function YouTab({ sortBy }: Props) {
           />
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

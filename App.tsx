@@ -12,9 +12,9 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const user = useAuthStore((state) => state.user);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
 
   if (!isLoadingComplete) {
     return null;

@@ -13,7 +13,7 @@ export default function StickyBottomTabs() {
   const [activeTab, setActiveTab] = useState<"you" | "friends">("you");
   const [sortBy, setSortBy] = useState<"nearest" | "recent">("recent");
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["5%", "30%"], []);
+  const snapPoints = useMemo(() => ["5%", "25%"], []);
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -138,10 +138,8 @@ export default function StickyBottomTabs() {
       >
         <View
           style={{
-            flex: 1,
-            backgroundColor: "#fff",
-            // alignItems: "center",
-            gap: 8,
+            padding: 8,
+            gap: 24,
           }}
         >
           <BottomSheetAction

@@ -45,10 +45,11 @@ const BorderlessInput = (props: InputProps) => {
   return (
     <View {...props} style={props.style}>
       <TextInput
+        multiline={true}
+        blurOnSubmit={true}
         placeholder={props.placeholder}
         placeholderTextColor="gray"
         onChangeText={props.onChangeText}
-        multiline={props.multiline}
         value={props.value}
         style={[
           styles.input,
@@ -57,9 +58,10 @@ const BorderlessInput = (props: InputProps) => {
             borderWidth: 0,
             backgroundColor: "#fff",
             color: "#000",
-            height: 60,
+            flex: 1,
           },
         ]}
+        returnKeyType="done"
       />
     </View>
   );

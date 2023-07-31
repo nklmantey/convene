@@ -21,11 +21,11 @@ export default function BottomSheetAction({
         flexDirection: "row",
         gap: 16,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         borderRadius: 8,
-        width: "90%",
-        padding: 16,
+        paddingHorizontal: 16,
         alignSelf: "center",
+        width: "100%",
       }}
     >
       <View
@@ -42,7 +42,12 @@ export default function BottomSheetAction({
       </View>
       <View style={{ gap: 2 }}>
         <BoldText style={{ fontSize: 18, color: "coral" }}>{title}</BoldText>
-        <BoldText style={{ fontSize: 12, color: "gray" }}>{subtext}</BoldText>
+        <BoldText
+          style={{ fontSize: 12, color: "gray", width: "70%" }}
+          numberOfLines={3}
+        >
+          {subtext}
+        </BoldText>
       </View>
     </TouchableOpacity>
   );

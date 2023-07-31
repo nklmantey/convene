@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   Image,
   Platform,
+  ScrollView,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -25,16 +26,18 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRoute } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import { PrimaryButton } from "../../components/ui/button";
+import CustomDatePicker from "../../components/date-picker";
 
 export default function AddEventScreen({ navigation }: any) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [mode, setMode] = useState<"date" | "time">("date");
-  const [show, setShow] = useState(false);
   const [location, setLocation] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [startTime, setStartTime] = useState<Date | undefined>(undefined);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [timePickerOpen, setTimePickerOpen] = useState(false);
   const [visibility, setVisibility] = useState<"public" | "invitees only">(
     "public"
   );
@@ -60,28 +63,6 @@ export default function AddEventScreen({ navigation }: any) {
     ),
     []
   );
-
-  // date and time picker config
-  const startOnChange = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate;
-    setShow(false);
-    setStartDate(currentDate);
-  };
-
-  const showMode = (currentMode: any) => {
-    if (Platform.OS === "android" || Platform.OS === "ios") {
-      setShow(true);
-    }
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = () => {
-    showMode("time");
-  };
 
   // image picker function
   async function selectImageFromGallery() {
@@ -120,7 +101,7 @@ export default function AddEventScreen({ navigation }: any) {
       await addDoc(collection(db, "events"), {
         visibility: visibility,
         start_date: dayjs(startDate).format("DD MMMM YYYY"),
-        start_time: dayjs(startDate).format("HH:mm"),
+        start_time: dayjs(startTime).format("HH:mm"),
         event_title: title,
         event_image: image,
         event_description: description,
@@ -152,10 +133,11 @@ export default function AddEventScreen({ navigation }: any) {
         flex: 1,
         backgroundColor: "#fff",
         justifyContent: "space-between",
+        paddingBottom: 16,
       }}
     >
       {/* header */}
-      <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
         <View
           style={{
             paddingHorizontal: 16,
@@ -221,27 +203,40 @@ export default function AddEventScreen({ navigation }: any) {
           <View style={{ gap: 16 }}>
             <View style={{ flexDirection: "row", gap: 8 }}>
               <Ionicons name="ios-calendar-outline" size={20} color={"gray"} />
-              <TouchableOpacity onPress={showDatepicker}>
+              <TouchableOpacity onPress={() => setDatePickerOpen(true)}>
                 <MediumText style={{ color: "gray", fontSize: 16 }}>
-                  select start date: {dayjs(startDate).format("DD MMMM YYYY")}
+                  {startDate === undefined && "press to select a start date"}
+                  {startDate !== undefined &&
+                    `your start date - ${dayjs(startDate).format(
+                      "DD MMMM, YYYY"
+                    )}`}
                 </MediumText>
               </TouchableOpacity>
             </View>
             <View style={{ flexDirection: "row", gap: 8 }}>
               <Ionicons name="ios-time-outline" size={23} color={"gray"} />
-              <TouchableOpacity onPress={showTimepicker}>
+              <TouchableOpacity onPress={() => setTimePickerOpen(true)}>
                 <MediumText style={{ color: "gray", fontSize: 16 }}>
-                  select start time: {dayjs(startDate).format("HH:mm")}
+                  {startTime === undefined && "press to select a start time"}
+                  {startTime !== undefined &&
+                    `your start time - ${dayjs(startTime).format("HH:mm A")}`}
                 </MediumText>
               </TouchableOpacity>
             </View>
-            {show && (
-              <DateTimePicker
-                testID="startdtpicker"
-                value={startDate!}
-                mode={mode}
-                is24Hour={true}
-                onChange={startOnChange}
+            {datePickerOpen && (
+              <CustomDatePicker
+                date={startDate}
+                exitOnClose={(date) => setStartDate(date)}
+                onDateSelected={() => setDatePickerOpen(false)}
+                mode={"date"}
+              />
+            )}
+            {timePickerOpen && (
+              <CustomDatePicker
+                date={startTime}
+                exitOnClose={(time) => setStartTime(time)}
+                onDateSelected={() => setTimePickerOpen(false)}
+                mode={"time"}
               />
             )}
           </View>
@@ -259,7 +254,6 @@ export default function AddEventScreen({ navigation }: any) {
           <BorderlessInput
             placeholder="describe your event"
             onChangeText={(e) => setDescription(e)}
-            multiline={true}
             value={description}
           />
 
@@ -270,7 +264,7 @@ export default function AddEventScreen({ navigation }: any) {
             onPress={handleCreateEvent}
           />
         </View>
-      </View>
+      </ScrollView>
 
       {/* bottom action bar */}
       <View
