@@ -14,10 +14,10 @@ export function PrimaryButton({ title, onPress, style }: ButtonProps) {
       style={{
         ...style,
         backgroundColor: "coral",
-        height: 55,
+        height: 50,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 14,
+        borderRadius: 1000,
       }}
     >
       <BoldText style={{ fontSize: 18, color: "#fff" }}>{title}</BoldText>
