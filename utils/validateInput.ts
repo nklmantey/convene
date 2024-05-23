@@ -4,7 +4,7 @@ function validateEmail(email: string): boolean {
 }
 
 function validatePassword(password: string): boolean {
-  return password.length >= 8 && password.trim().length > 0;
+  return password.length >= 8 && password.trim().length > 0
 }
 
 function validateMatchPassword(
